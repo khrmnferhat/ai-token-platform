@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Token Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #080808;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .chat-box {
+            background: #151515;
+            border: 1px solid #292929;
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            resize: none;
+            background: #0d0d0d;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .status {
+            margin-top: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            AI TOKEN
+        </div>
+
+        <div class="subtitle">
+            Token sahipleri için yapay zekâ platformu
+        </div>
+
+        <div class="chat-box">
+
+            <textarea
+                id="message"
+                placeholder="Yapay zekâya bir şey sor...">
+            </textarea>
+
+            <button onclick="sendMessage()">
+                AI'ya Sor
+            </button>
+
+            <div class="status" id="status">
+                Sistem hazır.
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function sendMessage() {
+
+            const message =
+                document.getElementById("message").value;
+
+            const status =
+                document.getElementById("status");
+
+            if (!message.trim()) {
+                status.innerText =
+                    "Lütfen bir soru yaz.";
+                return;
+            }
+
+            status.innerText =
+                "AI bağlantısı hazırlanıyor...";
+
+        }
+
+    </script>
+
+</body>
+</html>
