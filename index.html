@@ -1,141 +1,3654 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Token Platform</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<title>Sardis AI</title>
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #080808;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<meta
+    name="description"
+    content="Sardis AI - Global AI assistant"
+>
 
-        .container {
-            width: 90%;
-            max-width: 900px;
-            text-align: center;
-        }
+<meta
+    name="theme-color"
+    content="#000000"
+>
 
-        .logo {
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+<style>
 
-        .subtitle {
-            color: #aaa;
-            font-size: 18px;
-            margin-bottom: 40px;
-        }
+/* =========================================================
+   RESET
+========================================================= */
 
-        .chat-box {
-            background: #151515;
-            border: 1px solid #292929;
-            border-radius: 20px;
-            padding: 25px;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        textarea {
-            width: 100%;
-            min-height: 120px;
-            resize: none;
-            background: #0d0d0d;
-            color: white;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 15px;
-            font-size: 16px;
-            outline: none;
-        }
+:root {
+    --black: #000000;
+    --panel: #070707;
+    --panel-2: #0b0b0b;
 
-        button {
-            margin-top: 15px;
-            padding: 14px 30px;
-            border: none;
-            border-radius: 10px;
-            background: white;
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    --gold-dark: #8a6a16;
+    --gold: #c9a227;
+    --gold-main: #d4af37;
+    --gold-light: #f5d76e;
+    --gold-soft: #dfc35b;
 
-        button:hover {
-            opacity: 0.85;
-        }
+    --text: #f5f2e8;
+    --text-soft: #d8d2c3;
+    --muted: #77736a;
 
-        .status {
-            margin-top: 25px;
-            color: #777;
-            font-size: 14px;
-        }
-    </style>
+    --border: rgba(212,175,55,.15);
+
+    --sidebar-width: 255px;
+    --content-width: 900px;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+html {
+    color-scheme: dark;
+}
+
+body {
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    color: var(--text);
+    background: #000;
+
+    overflow: hidden;
+}
+
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid rgba(212,175,55,.45);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100%;
+
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            #030303 0%,
+            #000000 100%
+        );
+
+    border-right:
+        1px solid rgba(212,175,55,.14);
+
+    z-index: 20;
+}
+
+.brand {
+    height: 82px;
+
+    padding: 0 22px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    border-bottom:
+        1px solid rgba(212,175,55,.09);
+}
+
+.brand-logo {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    overflow: hidden;
+
+    background: #000;
+
+    box-shadow:
+        0 0 0 1px rgba(212,175,55,.08),
+        0 8px 30px rgba(212,175,55,.16);
+}
+
+.brand-logo img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.brand-name {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+
+    color: #eee9dc;
+}
+
+.brand-subtitle {
+    margin-top: 2px;
+
+    color: #8c7740;
+
+    font-size: 9px;
+    letter-spacing: 1.6px;
+
+    font-weight: 600;
+}
+
+.new-chat {
+    margin: 18px;
+
+    height: 43px;
+
+    border:
+        1px solid rgba(212,175,55,.24);
+
+    border-radius: 10px;
+
+    color: #d9bd5c;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(212,175,55,.06),
+            rgba(212,175,55,.025)
+        );
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition:
+        background .2s,
+        border-color .2s,
+        color .2s,
+        box-shadow .2s,
+        transform .2s;
+}
+
+.new-chat:hover {
+    color: #fff1a8;
+
+    border-color:
+        rgba(212,175,55,.5);
+
+    background:
+        rgba(212,175,55,.09);
+
+    box-shadow:
+        0 8px 25px rgba(212,175,55,.08);
+
+    transform: translateY(-1px);
+}
+
+.sidebar-section {
+    padding:
+        4px 18px 8px;
+
+    color: #68655e;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+.chat-list {
+    flex: 1;
+
+    padding: 4px 10px;
+
+    overflow-y: auto;
+}
+
+.chat-list::-webkit-scrollbar,
+.chat::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-list::-webkit-scrollbar-thumb,
+.chat::-webkit-scrollbar-thumb {
+    background: rgba(212,175,55,.15);
+    border-radius: 999px;
+}
+
+.empty-history {
+    padding: 25px 10px;
+
+    text-align: center;
+
+    color: #55534d;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.history-item {
+    width: 100%;
+
+    padding: 10px 11px;
+
+    margin-bottom: 3px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #969188;
+
+    text-align: left;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    font-size: 12px;
+
+    transition:
+        background .15s,
+        color .15s;
+}
+
+.history-item:hover {
+    background:
+        rgba(212,175,55,.055);
+
+    color: #ddd5c2;
+}
+
+.history-item.active {
+    background:
+        rgba(212,175,55,.08);
+
+    color: #e3c85e;
+}
+
+.sidebar-bottom {
+    padding: 15px 18px;
+
+    border-top:
+        1px solid rgba(212,175,55,.08);
+}
+
+.system-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #716e67;
+
+    font-size: 10px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #c9a227;
+
+    box-shadow:
+        0 0 10px rgba(212,175,55,.7);
+}
+
+.status-dot.offline {
+    background: #8b2929;
+    box-shadow: none;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main {
+    min-width: 0;
+
+    flex: 1;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    position: relative;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(212,175,55,.025),
+            transparent 35%
+        ),
+        #000;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+    height: 64px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 26px;
+
+    border-bottom:
+        1px solid rgba(212,175,55,.08);
+
+    background:
+        rgba(0,0,0,.94);
+
+    backdrop-filter: blur(20px);
+
+    z-index: 10;
+}
+
+.header-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.header-title strong {
+    color: #eee9dc;
+
+    font-size: 14px;
+
+    font-weight: 650;
+}
+
+.online-badge {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 4px 8px;
+
+    border:
+        1px solid rgba(212,175,55,.15);
+
+    border-radius: 999px;
+
+    color: #c9a227;
+
+    background:
+        rgba(212,175,55,.035);
+
+    font-size: 9px;
+}
+
+.online-badge .status-dot {
+    width: 5px;
+    height: 5px;
+}
+
+.header-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.language-select {
+    max-width: 190px;
+
+    border:
+        1px solid rgba(212,175,55,.16);
+
+    border-radius: 8px;
+
+    background: #080808;
+
+    color: #bfb8a7;
+
+    padding: 6px 8px;
+
+    font-size: 10px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.language-select:focus {
+    border-color:
+        rgba(212,175,55,.4);
+
+    box-shadow:
+        0 0 0 2px rgba(212,175,55,.05);
+}
+
+.model-badge {
+    color: #55524b;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+.mobile-menu {
+    display: none;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #c9a227;
+
+    font-size: 21px;
+}
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+.chat {
+    flex: 1;
+
+    overflow-y: auto;
+
+    scroll-behavior: smooth;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(212,175,55,.018),
+            transparent 42%
+        );
+}
+
+.chat-inner {
+    width:
+        min(
+            var(--content-width),
+            calc(100% - 40px)
+        );
+
+    margin: 0 auto;
+
+    padding:
+        35px 0 190px;
+}
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome {
+    min-height: 63vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    text-align: center;
+}
+
+.welcome-logo {
+    width: 100px;
+    height: 100px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 25px;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    background: #000;
+
+    box-shadow:
+        0 0 0 1px rgba(212,175,55,.08),
+        0 18px 60px rgba(212,175,55,.16);
+}
+
+.welcome-logo img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.welcome h1 {
+    margin-bottom: 11px;
+
+    color: #f3eee0;
+
+    font-size:
+        clamp(28px,4vw,40px);
+
+    font-weight: 650;
+
+    letter-spacing: -1.5px;
+}
+
+.welcome p {
+    max-width: 570px;
+
+    color: #77736a;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+/* =========================================================
+   QUICK PROMPTS
+========================================================= */
+
+.quick-prompts {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    max-width: 720px;
+
+    margin-top: 25px;
+}
+
+.quick-prompt {
+    border:
+        1px solid rgba(212,175,55,.11);
+
+    border-radius: 999px;
+
+    padding: 8px 13px;
+
+    background:
+        rgba(212,175,55,.025);
+
+    color: #8f897c;
+
+    font-size: 10px;
+
+    transition:
+        background .2s,
+        border-color .2s,
+        color .2s,
+        transform .2s;
+}
+
+.quick-prompt:hover {
+    background:
+        rgba(212,175,55,.07);
+
+    border-color:
+        rgba(212,175,55,.25);
+
+    color: #d4af37;
+
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+    display: flex;
+
+    gap: 13px;
+
+    margin-bottom: 25px;
+
+    animation:
+        messageIn .2s ease-out;
+}
+
+@keyframes messageIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+.avatar.ai {
+    overflow: hidden;
+
+    background: #000;
+
+    box-shadow:
+        0 5px 18px rgba(212,175,55,.12);
+}
+
+.avatar.ai img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.avatar.user {
+    color: #c8c2b3;
+
+    background: #11100c;
+
+    border:
+        1px solid rgba(255,255,255,.07);
+}
+
+.message-body {
+    min-width: 0;
+
+    max-width: 78%;
+}
+
+.message.user .message-body {
+    max-width: 74%;
+}
+
+.message-content {
+    padding:
+        13px 16px;
+
+    border-radius: 13px;
+
+    font-size: 13px;
+
+    line-height: 1.75;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+}
+
+.message.ai .message-content {
+    background:
+        rgba(255,255,255,.018);
+
+    border:
+        1px solid rgba(212,175,55,.08);
+
+    color: #ddd8cb;
+}
+
+.message.user .message-content {
+    background:
+        linear-gradient(
+            135deg,
+            #17150f,
+            #12110d
+        );
+
+    border:
+        1px solid rgba(212,175,55,.09);
+
+    color: #ded8c9;
+}
+
+.message-meta {
+    margin-top: 6px;
+
+    padding: 0 3px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #504e48;
+
+    font-size: 9px;
+}
+
+.message.user .message-meta {
+    justify-content: flex-end;
+}
+
+.copy-btn {
+    border: 0;
+
+    background: transparent;
+
+    color: #55524c;
+
+    font-size: 9px;
+
+    transition: color .15s;
+}
+
+.copy-btn:hover {
+    color: #c9a227;
+}
+
+/* =========================================================
+   SOURCES
+========================================================= */
+
+.sources {
+    margin-top: 10px;
+
+    padding: 11px;
+
+    border:
+        1px solid rgba(212,175,55,.13);
+
+    border-radius: 10px;
+
+    background:
+        rgba(212,175,55,.025);
+}
+
+.sources-title {
+    margin-bottom: 7px;
+
+    color: #c9a227;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.source {
+    display: block;
+
+    padding: 7px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.035);
+
+    color: #77736a;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    transition: color .15s;
+}
+
+.source:last-child {
+    border-bottom: 0;
+}
+
+.source:hover {
+    color: #d4af37;
+}
+
+/* =========================================================
+   TYPING
+========================================================= */
+
+.typing {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 14px 4px;
+}
+
+.typing span {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #c9a227;
+
+    animation:
+        typing 1.1s infinite ease-in-out;
+}
+
+.typing span:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.typing span:nth-child(3) {
+    animation-delay: .3s;
+}
+
+@keyframes typing {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: .3;
+    }
+
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* =========================================================
+   COMPOSER
+========================================================= */
+
+.composer-area {
+    position: fixed;
+
+    bottom: 0;
+
+    left: var(--sidebar-width);
+
+    right: 0;
+
+    padding:
+        18px 25px 22px;
+
+    background:
+        linear-gradient(
+            to top,
+            #000000 55%,
+            transparent
+        );
+
+    pointer-events: none;
+
+    z-index: 15;
+}
+
+.composer {
+    pointer-events: auto;
+
+    width:
+        min(
+            var(--content-width),
+            100%
+        );
+
+    margin: 0 auto;
+
+    padding: 9px;
+
+    border:
+        1px solid rgba(212,175,55,.17);
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0b0b0b,
+            #060606
+        );
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.65),
+        0 0 35px rgba(212,175,55,.035);
+}
+
+.input-row {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 8px;
+}
+
+#messageInput {
+    width: 100%;
+
+    min-height: 45px;
+
+    max-height: 170px;
+
+    resize: none;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    color: #eee9dc;
+
+    padding:
+        11px 10px;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+#messageInput::placeholder {
+    color: #59564f;
+}
+
+#messageInput:disabled {
+    opacity: .55;
+}
+
+.send-btn {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    color: #090806;
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            135deg,
+            #927018,
+            #d4af37 38%,
+            #f4d76d 52%,
+            #b4891e 75%,
+            #826214
+        );
+
+    box-shadow:
+        0 7px 20px rgba(212,175,55,.12);
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+}
+
+.send-btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 10px 25px rgba(212,175,55,.22);
+}
+
+.send-btn:disabled {
+    opacity: .4;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+.composer-info {
+    padding:
+        5px 9px 1px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #45433e;
+
+    font-size: 9px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    top: 78px;
+
+    right: 20px;
+
+    max-width: min(360px, calc(100vw - 40px));
+
+    padding:
+        10px 13px;
+
+    border:
+        1px solid rgba(212,175,55,.16);
+
+    border-radius: 9px;
+
+    background: #15130e;
+
+    color: #d4af37;
+
+    font-size: 10px;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.65);
+
+    opacity: 0;
+
+    transform:
+        translateY(-8px);
+
+    pointer-events: none;
+
+    transition: .25s;
+
+    z-index: 100;
+}
+
+.toast.show {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+/* =========================================================
+   RTL
+========================================================= */
+
+[dir="rtl"] .message.user {
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .message.user .message-body {
+    order: 1;
+}
+
+[dir="rtl"] .message.user .avatar {
+    order: 2;
+}
+
+[dir="rtl"] .message.user .message-meta {
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .history-item {
+    text-align: right;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        position: fixed;
+
+        left: -270px;
+
+        top: 0;
+        bottom: 0;
+
+        width: 255px;
+
+        transition: .25s;
+
+        box-shadow:
+            20px 0 60px rgba(0,0,0,.7);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .header {
+        padding: 0 15px;
+    }
+
+    .model-badge {
+        display: none;
+    }
+
+    .language-select {
+        max-width: 130px;
+    }
+
+    .composer-area {
+        left: 0;
+
+        padding: 10px;
+    }
+
+    .chat-inner {
+        width:
+            calc(100% - 24px);
+
+        padding-top: 25px;
+    }
+
+    .message-body {
+        max-width: 88%;
+    }
+
+    .message.user .message-body {
+        max-width: 86%;
+    }
+
+    .welcome {
+        min-height: 62vh;
+    }
+
+    .welcome h1 {
+        font-size: 29px;
+    }
+
+    .welcome p {
+        padding: 0 10px;
+
+        font-size: 12px;
+    }
+
+    .quick-prompts {
+        padding: 0 8px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .brand {
+        height: 70px;
+    }
+
+    .welcome-logo {
+        width: 72px;
+        height: 72px;
+    }
+
+    .welcome h1 {
+        font-size: 26px;
+    }
+
+    .message {
+        gap: 8px;
+    }
+
+    .avatar {
+        width: 29px;
+        height: 29px;
+    }
+
+    .message-content {
+        padding:
+            11px 13px;
+
+        font-size: 12px;
+    }
+
+    .composer-info span:last-child {
+        display: none;
+    }
+
+    .language-select {
+        max-width: 105px;
+    }
+
+    .online-badge {
+        display: none;
+    }
+
+    .toast {
+        right: 10px;
+        top: 70px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="container">
+<div class="app">
 
-        <div class="logo">
-            AI TOKEN
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="brand">
+
+            <div class="brand-logo">
+
+                <img
+                    src="logo.png"
+                    alt="Sardis"
+                    onerror="this.style.display='none'"
+                >
+
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    Sardis
+                </div>
+
+                <div class="brand-subtitle">
+                    PREMIUM AI
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="subtitle">
-            Token sahipleri için yapay zekâ platformu
+        <button
+            class="new-chat"
+            id="newChatBtn"
+            type="button"
+        ></button>
+
+        <div
+            class="sidebar-section"
+            id="chatsLabel"
+        ></div>
+
+        <div
+            class="chat-list"
+            id="chatList"
+        ></div>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+
+                <span
+                    class="status-dot"
+                    id="statusDot"
+                ></span>
+
+                <span id="statusText"></span>
+
+            </div>
+
         </div>
 
-        <div class="chat-box">
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+        <header class="header">
+
+            <div class="header-title">
+
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    type="button"
+                    aria-label="Menu"
+                >
+                    ☰
+                </button>
+
+                <strong>
+                    Sardis AI
+                </strong>
+
+                <span
+                    class="online-badge"
+                    id="onlineBadge"
+                >
+
+                    <span class="status-dot"></span>
+
+                    <span id="onlineText"></span>
+
+                </span>
+
+            </div>
+
+            <div class="header-right">
+
+                <select
+                    class="language-select"
+                    id="languageSelect"
+                    aria-label="Language"
+                ></select>
+
+                <span
+                    class="model-badge"
+                    id="modelBadge"
+                ></span>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CHAT
+        ================================================== -->
+
+        <section
+            class="chat"
+            id="chat"
+        >
+
+            <div
+                class="chat-inner"
+                id="chatInner"
+            >
+
+                <div
+                    class="welcome"
+                    id="welcome"
+                >
+
+                    <div class="welcome-logo">
+
+                        <img
+                            src="logo.png"
+                            alt="Sardis"
+                            onerror="this.style.display='none'"
+                        >
+
+                    </div>
+
+                    <h1>
+                        Sardis
+                    </h1>
+
+                    <p id="welcomeText"></p>
+
+                    <div
+                        class="quick-prompts"
+                        id="quickPrompts"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     COMPOSER
+========================================================= -->
+
+<div class="composer-area">
+
+    <div class="composer">
+
+        <div class="input-row">
 
             <textarea
-                id="message"
-                placeholder="Yapay zekâya bir şey sor...">
-            </textarea>
+                id="messageInput"
+                rows="1"
+                maxlength="10000"
+                autocomplete="off"
+                spellcheck="true"
+            ></textarea>
 
-            <button onclick="sendMessage()">
-                AI'ya Sor
+            <button
+                class="send-btn"
+                id="sendBtn"
+                type="button"
+                title="Send"
+                aria-label="Send"
+            >
+                ↑
             </button>
 
-            <div class="status" id="status">
-                Sistem hazır.
-            </div>
+        </div>
+
+        <div class="composer-info">
+
+            <span>
+                Sardis AI
+            </span>
+
+            <span id="composerHint"></span>
 
         </div>
 
     </div>
 
-    <script>
+</div>
 
-        function sendMessage() {
 
-            const message =
-                document.getElementById("message").value;
+<!-- =========================================================
+     TOAST
+========================================================= -->
 
-            const status =
-                document.getElementById("status");
+<div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+></div>
 
-            if (!message.trim()) {
-                status.innerText =
-                    "Lütfen bir soru yaz.";
-                return;
+
+<script>
+
+"use strict";
+
+/* =========================================================
+   MULTILINGUAL UI
+========================================================= */
+
+const UI = {
+
+    en: {
+        name: "English",
+        newChat: "＋ New chat",
+        chats: "Chats",
+        empty: "No chat history yet.",
+        welcome:
+            "A global AI workspace built for clear answers, useful conversations and a premium experience with Sardis.",
+        placeholder:
+            "Ask Sardis something...",
+        hint:
+            "Enter to send · Shift + Enter for new line",
+        online:
+            "Online",
+        ready:
+            "System ready",
+        offline:
+            "Server connection unavailable",
+        check:
+            "Check",
+        copy:
+            "Copy",
+        copied:
+            "Copied",
+        copyFail:
+            "Copy failed.",
+        sources:
+            "🌐 Internet sources",
+        web:
+            "Up-to-date internet information was used.",
+        error:
+            "Sorry, there was a problem generating the answer.",
+        serverError:
+            "Connection or server error.",
+        selected:
+            "Chat session selected.",
+        language:
+            "Language",
+        model:
+            "Model: ",
+        prompts: [
+            "What can you do?",
+            "Give me today's important news.",
+            "Explain artificial intelligence.",
+            "Help me make a business plan."
+        ]
+    },
+
+    tr: {
+        name: "Türkçe",
+        newChat: "＋ Yeni sohbet",
+        chats: "Sohbetler",
+        empty: "Henüz sohbet geçmişi yok.",
+        welcome:
+            "Net cevaplar, güçlü sohbetler ve global kullanım için tasarlanmış premium Sardis AI deneyimi.",
+        placeholder:
+            "Sardis'e bir şey sor...",
+        hint:
+            "Enter gönder · Shift + Enter yeni satır",
+        online:
+            "Online",
+        ready:
+            "Sistem hazır",
+        offline:
+            "Sunucu bağlantısı yok",
+        check:
+            "Kontrol",
+        copy:
+            "Kopyala",
+        copied:
+            "Kopyalandı",
+        copyFail:
+            "Kopyalama başarısız.",
+        sources:
+            "🌐 İnternet kaynakları",
+        web:
+            "Güncel internet bilgisi kullanıldı.",
+        error:
+            "Üzgünüm, cevap oluştururken bir sorun oluştu.",
+        serverError:
+            "Bağlantı veya sunucu hatası.",
+        selected:
+            "Sohbet oturumu seçildi.",
+        language:
+            "Dil",
+        model:
+            "Model: ",
+        prompts: [
+            "Neler yapabiliyorsun?",
+            "Bugünün önemli haberlerini göster.",
+            "Yapay zekayı açıkla.",
+            "Bir iş planı hazırlamama yardım et."
+        ]
+    },
+
+    de: {
+        name: "Deutsch",
+        newChat: "＋ Neuer Chat",
+        chats: "Chats",
+        empty: "Noch kein Chatverlauf.",
+        welcome:
+            "Ein globaler KI-Arbeitsbereich für klare Antworten und hochwertige Gespräche mit Sardis.",
+        placeholder:
+            "Frage Sardis etwas...",
+        hint:
+            "Enter zum Senden · Shift + Enter für eine neue Zeile",
+        online: "Online",
+        ready: "System bereit",
+        offline: "Keine Serververbindung",
+        check: "Prüfen",
+        copy: "Kopieren",
+        copied: "Kopiert",
+        copyFail: "Kopieren fehlgeschlagen.",
+        sources: "🌐 Internetquellen",
+        web: "Aktuelle Internetinformationen wurden verwendet.",
+        error: "Beim Erstellen der Antwort ist ein Problem aufgetreten.",
+        serverError: "Verbindungs- oder Serverfehler.",
+        selected: "Chatsitzung ausgewählt.",
+        language: "Sprache",
+        model: "Modell: ",
+        prompts: [
+            "Was kannst du tun?",
+            "Was sind die wichtigsten Nachrichten heute?",
+            "Erkläre künstliche Intelligenz.",
+            "Hilf mir bei einem Geschäftsplan."
+        ]
+    },
+
+    fr: {
+        name: "Français",
+        newChat: "＋ Nouvelle discussion",
+        chats: "Discussions",
+        empty: "Aucun historique de discussion.",
+        welcome:
+            "Un espace de travail IA mondial conçu pour des réponses claires et une expérience premium avec Sardis.",
+        placeholder:
+            "Demandez quelque chose à Sardis...",
+        hint:
+            "Entrée pour envoyer · Maj + Entrée pour une nouvelle ligne",
+        online: "En ligne",
+        ready: "Système prêt",
+        offline: "Connexion au serveur indisponible",
+        check: "Vérifier",
+        copy: "Copier",
+        copied: "Copié",
+        copyFail: "Échec de la copie.",
+        sources: "🌐 Sources Internet",
+        web: "Des informations Internet récentes ont été utilisées.",
+        error: "Désolé, un problème est survenu lors de la génération de la réponse.",
+        serverError: "Erreur de connexion ou du serveur.",
+        selected: "Session de discussion sélectionnée.",
+        language: "Langue",
+        model: "Modèle : ",
+        prompts: [
+            "Que peux-tu faire ?",
+            "Quelles sont les actualités importantes aujourd'hui ?",
+            "Explique l'intelligence artificielle.",
+            "Aide-moi à créer un plan d'affaires."
+        ]
+    },
+
+    es: {
+        name: "Español",
+        newChat: "＋ Nuevo chat",
+        chats: "Chats",
+        empty: "Todavía no hay historial de chats.",
+        welcome:
+            "Un espacio de trabajo de IA global para respuestas claras y conversaciones útiles con Sardis.",
+        placeholder:
+            "Pregúntale algo a Sardis...",
+        hint:
+            "Enter para enviar · Shift + Enter para una nueva línea",
+        online: "En línea",
+        ready: "Sistema listo",
+        offline: "Sin conexión con el servidor",
+        check: "Comprobar",
+        copy: "Copiar",
+        copied: "Copiado",
+        copyFail: "No se pudo copiar.",
+        sources: "🌐 Fuentes de Internet",
+        web: "Se utilizó información actualizada de Internet.",
+        error: "Lo siento, hubo un problema al generar la respuesta.",
+        serverError: "Error de conexión o del servidor.",
+        selected: "Sesión de chat seleccionada.",
+        language: "Idioma",
+        model: "Modelo: ",
+        prompts: [
+            "¿Qué puedes hacer?",
+            "Muéstrame las noticias importantes de hoy.",
+            "Explica la inteligencia artificial.",
+            "Ayúdame a crear un plan de negocio."
+        ]
+    },
+
+    it: {
+        name: "Italiano",
+        newChat: "＋ Nuova chat",
+        chats: "Chat",
+        empty: "Nessuna cronologia delle chat.",
+        welcome:
+            "Uno spazio di lavoro IA globale progettato per risposte chiare e conversazioni utili con Sardis.",
+        placeholder:
+            "Chiedi qualcosa a Sardis...",
+        hint:
+            "Invio per inviare · Shift + Invio per nuova riga",
+        online: "Online",
+        ready: "Sistema pronto",
+        offline: "Connessione al server non disponibile",
+        check: "Controlla",
+        copy: "Copia",
+        copied: "Copiato",
+        copyFail: "Copia non riuscita.",
+        sources: "🌐 Fonti Internet",
+        web: "Sono state utilizzate informazioni aggiornate da Internet.",
+        error: "Si è verificato un problema durante la generazione della risposta.",
+        serverError: "Errore di connessione o server.",
+        selected: "Sessione chat selezionata.",
+        language: "Lingua",
+        model: "Modello: ",
+        prompts: [
+            "Cosa puoi fare?",
+            "Quali sono le notizie importanti di oggi?",
+            "Spiega l'intelligenza artificiale.",
+            "Aiutami a creare un piano aziendale."
+        ]
+    },
+
+    pt: {
+        name: "Português",
+        newChat: "＋ Nova conversa",
+        chats: "Conversas",
+        empty: "Ainda não há histórico de conversas.",
+        welcome:
+            "Um espaço de trabalho de IA global para respostas claras e conversas úteis com Sardis.",
+        placeholder:
+            "Pergunte algo ao Sardis...",
+        hint:
+            "Enter para enviar · Shift + Enter para nova linha",
+        online: "Online",
+        ready: "Sistema pronto",
+        offline: "Conexão com o servidor indisponível",
+        check: "Verificar",
+        copy: "Copiar",
+        copied: "Copiado",
+        copyFail: "Falha ao copiar.",
+        sources: "🌐 Fontes da Internet",
+        web: "Informações atualizadas da Internet foram utilizadas.",
+        error: "Desculpe, ocorreu um problema ao gerar a resposta.",
+        serverError: "Erro de conexão ou servidor.",
+        selected: "Sessão de conversa selecionada.",
+        language: "Idioma",
+        model: "Modelo: ",
+        prompts: [
+            "O que você pode fazer?",
+            "Mostre as notícias importantes de hoje.",
+            "Explique inteligência artificial.",
+            "Ajude-me a criar um plano de negócios."
+        ]
+    },
+
+    nl: {
+        name: "Nederlands",
+        newChat: "＋ Nieuwe chat",
+        chats: "Chats",
+        empty: "Nog geen chatgeschiedenis.",
+        welcome:
+            "Een wereldwijde AI-werkruimte voor duidelijke antwoorden en nuttige gesprekken met Sardis.",
+        placeholder:
+            "Vraag Sardis iets...",
+        hint:
+            "Enter om te verzenden · Shift + Enter voor een nieuwe regel",
+        online: "Online",
+        ready: "Systeem gereed",
+        offline: "Geen serververbinding",
+        check: "Controleren",
+        copy: "Kopiëren",
+        copied: "Gekopieerd",
+        copyFail: "Kopiëren mislukt.",
+        sources: "🌐 Internetbronnen",
+        web: "Actuele internetinformatie is gebruikt.",
+        error: "Er is een probleem opgetreden bij het genereren van het antwoord.",
+        serverError: "Verbindings- of serverfout.",
+        selected: "Chatsessie geselecteerd.",
+        language: "Taal",
+        model: "Model: ",
+        prompts: [
+            "Wat kun je doen?",
+            "Wat zijn vandaag de belangrijkste nieuwsberichten?",
+            "Leg kunstmatige intelligentie uit.",
+            "Help me een bedrijfsplan te maken."
+        ]
+    },
+
+    pl: {
+        name: "Polski",
+        newChat: "＋ Nowy czat",
+        chats: "Czaty",
+        empty: "Brak historii czatów.",
+        welcome:
+            "Globalna przestrzeń AI do jasnych odpowiedzi i przydatnych rozmów z Sardis.",
+        placeholder:
+            "Zapytaj Sardis...",
+        hint:
+            "Enter aby wysłać · Shift + Enter aby rozpocząć nową linię",
+        online: "Online",
+        ready: "System gotowy",
+        offline: "Brak połączenia z serwerem",
+        check: "Sprawdź",
+        copy: "Kopiuj",
+        copied: "Skopiowano",
+        copyFail: "Kopiowanie nie powiodło się.",
+        sources: "🌐 Źródła internetowe",
+        web: "Użyto aktualnych informacji z Internetu.",
+        error: "Wystąpił problem podczas generowania odpowiedzi.",
+        serverError: "Błąd połączenia lub serwera.",
+        selected: "Wybrano sesję czatu.",
+        language: "Język",
+        model: "Model: ",
+        prompts: [
+            "Co potrafisz?",
+            "Pokaż najważniejsze wiadomości z dzisiaj.",
+            "Wyjaśnij sztuczną inteligencję.",
+            "Pomóż mi stworzyć biznesplan."
+        ]
+    },
+
+    ru: {
+        name: "Русский",
+        newChat: "＋ Новый чат",
+        chats: "Чаты",
+        empty: "Истории чатов пока нет.",
+        welcome:
+            "Глобальное рабочее пространство с ИИ для четких ответов и полезных разговоров с Sardis.",
+        placeholder:
+            "Спросите что-нибудь у Sardis...",
+        hint:
+            "Enter — отправить · Shift + Enter — новая строка",
+        online: "Онлайн",
+        ready: "Система готова",
+        offline: "Нет подключения к серверу",
+        check: "Проверить",
+        copy: "Копировать",
+        copied: "Скопировано",
+        copyFail: "Не удалось скопировать.",
+        sources: "🌐 Интернет-источники",
+        web: "Использована актуальная информация из Интернета.",
+        error: "Произошла ошибка при создании ответа.",
+        serverError: "Ошибка подключения или сервера.",
+        selected: "Сессия чата выбрана.",
+        language: "Язык",
+        model: "Модель: ",
+        prompts: [
+            "Что ты умеешь?",
+            "Покажи важные новости сегодня.",
+            "Объясни искусственный интеллект.",
+            "Помоги мне составить бизнес-план."
+        ]
+    },
+
+    ja: {
+        name: "日本語",
+        newChat: "＋ 新しいチャット",
+        chats: "チャット",
+        empty: "チャット履歴はまだありません。",
+        welcome:
+            "Sardisによる、世界中で利用できる高品質なAIワークスペースです。",
+        placeholder:
+            "Sardisに質問してください...",
+        hint:
+            "Enterで送信 · Shift + Enterで改行",
+        online: "オンライン",
+        ready: "システム準備完了",
+        offline: "サーバーに接続できません",
+        check: "確認",
+        copy: "コピー",
+        copied: "コピーしました",
+        copyFail: "コピーに失敗しました。",
+        sources: "🌐 インターネット情報源",
+        web: "最新のインターネット情報を使用しました。",
+        error: "回答の生成中に問題が発生しました。",
+        serverError: "接続またはサーバーエラーです。",
+        selected: "チャットセッションを選択しました。",
+        language: "言語",
+        model: "モデル: ",
+        prompts: [
+            "何ができますか？",
+            "今日の重要なニュースを教えてください。",
+            "人工知能について説明してください。",
+            "ビジネスプラン作成を手伝ってください。"
+        ]
+    },
+
+    ko: {
+        name: "한국어",
+        newChat: "＋ 새 채팅",
+        chats: "채팅",
+        empty: "아직 채팅 기록이 없습니다.",
+        welcome:
+            "Sardis의 글로벌 AI 작업 공간에서 명확한 답변과 유용한 대화를 경험하세요.",
+        placeholder:
+            "Sardis에게 질문하세요...",
+        hint:
+            "Enter 전송 · Shift + Enter 줄바꿈",
+        online: "온라인",
+        ready: "시스템 준비 완료",
+        offline: "서버 연결 없음",
+        check: "확인",
+        copy: "복사",
+        copied: "복사됨",
+        copyFail: "복사하지 못했습니다.",
+        sources: "🌐 인터넷 출처",
+        web: "최신 인터넷 정보를 사용했습니다.",
+        error: "답변을 생성하는 동안 문제가 발생했습니다.",
+        serverError: "연결 또는 서버 오류입니다.",
+        selected: "채팅 세션을 선택했습니다.",
+        language: "언어",
+        model: "모델: ",
+        prompts: [
+            "무엇을 할 수 있나요?",
+            "오늘의 중요한 뉴스를 보여주세요.",
+            "인공지능을 설명해주세요.",
+            "사업 계획을 만드는 데 도움을 주세요."
+        ]
+    },
+
+    zh: {
+        name: "简体中文",
+        newChat: "＋ 新建聊天",
+        chats: "聊天",
+        empty: "暂无聊天记录。",
+        welcome:
+            "由 Sardis 提供的全球 AI 工作空间，专注于清晰回答和高质量对话。",
+        placeholder:
+            "问 Sardis 一个问题...",
+        hint:
+            "Enter 发送 · Shift + Enter 换行",
+        online: "在线",
+        ready: "系统就绪",
+        offline: "服务器连接不可用",
+        check: "检查",
+        copy: "复制",
+        copied: "已复制",
+        copyFail: "复制失败。",
+        sources: "🌐 网络来源",
+        web: "使用了最新的互联网信息。",
+        error: "生成回答时出现问题。",
+        serverError: "连接或服务器错误。",
+        selected: "已选择聊天会话。",
+        language: "语言",
+        model: "模型：",
+        prompts: [
+            "你能做什么？",
+            "告诉我今天的重要新闻。",
+            "解释一下人工智能。",
+            "帮助我制定商业计划。"
+        ]
+    }
+};
+
+
+/* =========================================================
+   EXTRA LANGUAGES
+========================================================= */
+
+const EXTRA_LANGUAGES = {
+
+    af: "Afrikaans",
+    am: "አማርኛ",
+    az: "Azərbaycan",
+    be: "Беларуская",
+    bn: "বাংলা",
+    bs: "Bosanski",
+    ca: "Català",
+    cs: "Čeština",
+    cy: "Cymraeg",
+    da: "Dansk",
+    el: "Ελληνικά",
+    et: "Eesti",
+    eu: "Euskara",
+    fi: "Suomi",
+    fil: "Filipino",
+    ga: "Gaeilge",
+    gl: "Galego",
+    gu: "ગુજરાતી",
+    he: "עברית",
+    hi: "हिन्दी",
+    hr: "Hrvatski",
+    hu: "Magyar",
+    hy: "Հայերեն",
+    id: "Bahasa Indonesia",
+    is: "Íslenska",
+    ka: "ქართული",
+    kk: "Қазақша",
+    km: "ខ្មែរ",
+    kn: "ಕನ್ನಡ",
+    ku: "Kurdî",
+    ky: "Кыргызча",
+    la: "Latina",
+    lo: "ລາວ",
+    lt: "Lietuvių",
+    lv: "Latviešu",
+    mk: "Македонски",
+    ml: "മലയാളം",
+    mn: "Монгол",
+    mr: "मराठी",
+    ms: "Bahasa Melayu",
+    mt: "Malti",
+    my: "မြန်မာ",
+    ne: "नेपाली",
+    no: "Norsk",
+    pa: "ਪੰਜਾਬੀ",
+    ps: "پښتو",
+    ro: "Română",
+    si: "සිංහල",
+    sk: "Slovenčina",
+    sl: "Slovenščina",
+    sq: "Shqip",
+    sr: "Српски",
+    sv: "Svenska",
+    sw: "Kiswahili",
+    ta: "தமிழ்",
+    te: "తెలుగు",
+    tg: "Тоҷикӣ",
+    th: "ไทย",
+    tk: "Türkmençe",
+    ur: "اردو",
+    uz: "O‘zbek",
+    vi: "Tiếng Việt",
+    xh: "isiXhosa",
+    yo: "Yorùbá",
+    zu: "isiZulu",
+
+    yue: "粵語",
+    jv: "Basa Jawa",
+    su: "Basa Sunda",
+    ha: "Hausa",
+    ig: "Igbo",
+    so: "Soomaali",
+    rw: "Kinyarwanda",
+    mg: "Malagasy",
+    ny: "Chichewa",
+    sn: "Shona",
+    st: "Sesotho",
+    tn: "Setswana",
+    ts: "Tsonga",
+    ve: "Tshivenda",
+    wo: "Wolof",
+    mi: "Māori",
+    haw: "ʻŌlelo Hawaiʻi",
+    sm: "Gagana Samoa",
+    to: "Lea fakatonga",
+    fj: "Fijian",
+    ht: "Kreyòl Ayisyen",
+    br: "Brezhoneg",
+    oc: "Occitan"
+};
+
+
+/* =========================================================
+   RTL
+========================================================= */
+
+const RTL_LANGUAGES = new Set([
+    "ar",
+    "fa",
+    "he",
+    "ur",
+    "ps",
+    "ku"
+]);
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const chat =
+    document.getElementById("chat");
+
+const chatInner =
+    document.getElementById("chatInner");
+
+const input =
+    document.getElementById("messageInput");
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+const newChatBtn =
+    document.getElementById("newChatBtn");
+
+const statusDot =
+    document.getElementById("statusDot");
+
+const statusText =
+    document.getElementById("statusText");
+
+const modelBadge =
+    document.getElementById("modelBadge");
+
+const onlineBadge =
+    document.getElementById("onlineBadge");
+
+const toast =
+    document.getElementById("toast");
+
+const chatList =
+    document.getElementById("chatList");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const languageSelect =
+    document.getElementById("languageSelect");
+
+const quickPrompts =
+    document.getElementById("quickPrompts");
+
+
+/* =========================================================
+   LANGUAGE DETECTION
+========================================================= */
+
+let locale =
+    navigator.language ||
+    "en-US";
+
+let base =
+    locale
+        .toLowerCase()
+        .split("-")[0];
+
+const savedLanguage =
+    localStorage.getItem(
+        "sardis_language"
+    );
+
+if (savedLanguage) {
+
+    locale =
+        savedLanguage;
+
+    base =
+        savedLanguage
+            .toLowerCase()
+            .split("-")[0];
+}
+
+if (
+    !UI[base] &&
+    !EXTRA_LANGUAGES[base]
+) {
+
+    base = "en";
+    locale = "en-US";
+}
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let sessionId =
+    localStorage.getItem(
+        "sardis_session"
+    ) || null;
+
+let isSending =
+    false;
+
+let toastTimer =
+    null;
+
+let conversations = [];
+
+try {
+
+    conversations =
+        JSON.parse(
+            localStorage.getItem(
+                "sardis_conversations"
+            ) || "[]"
+        );
+
+    if (
+        !Array.isArray(
+            conversations
+        )
+    ) {
+
+        conversations = [];
+    }
+
+} catch {
+
+    conversations = [];
+}
+
+
+/* =========================================================
+   TRANSLATION
+========================================================= */
+
+function t(key) {
+
+    return (
+        UI[base]?.[key] ??
+        UI.en[key] ??
+        key
+    );
+}
+
+
+/* =========================================================
+   SAFE TEXT
+========================================================= */
+
+function safeText(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+    return String(value);
+}
+
+
+/* =========================================================
+   LOCALE
+========================================================= */
+
+function setLocale(value) {
+
+    locale =
+        value ||
+        "en-US";
+
+    base =
+        locale
+            .toLowerCase()
+            .split("-")[0];
+
+    if (
+        !UI[base] &&
+        !EXTRA_LANGUAGES[base]
+    ) {
+
+        base = "en";
+    }
+
+    localStorage.setItem(
+        "sardis_language",
+        locale
+    );
+
+    document.documentElement.lang =
+        locale;
+
+    document.documentElement.dir =
+        RTL_LANGUAGES.has(base)
+            ? "rtl"
+            : "ltr";
+
+    newChatBtn.textContent =
+        t("newChat");
+
+    document.getElementById(
+        "chatsLabel"
+    ).textContent =
+        t("chats");
+
+    const welcomeText =
+        document.getElementById(
+            "welcomeText"
+        );
+
+    if (welcomeText) {
+
+        welcomeText.textContent =
+            t("welcome");
+    }
+
+    input.placeholder =
+        t("placeholder");
+
+    document.getElementById(
+        "composerHint"
+    ).textContent =
+        t("hint");
+
+    document.getElementById(
+        "onlineText"
+    ).textContent =
+        t("online");
+
+    modelBadge.dataset.prefix =
+        t("model");
+
+    renderQuickPrompts();
+
+    renderHistory();
+
+    languageSelect.value =
+        base;
+}
+
+
+/* =========================================================
+   LANGUAGE LIST
+========================================================= */
+
+function buildLanguageList() {
+
+    const languages =
+        new Map();
+
+    Object.keys(UI)
+        .forEach(
+            code => {
+
+                languages.set(
+                    code,
+                    UI[code].name
+                );
             }
+        );
 
-            status.innerText =
-                "AI bağlantısı hazırlanıyor...";
+    Object.entries(
+        EXTRA_LANGUAGES
+    ).forEach(
+        ([code, name]) => {
+
+            if (
+                !languages.has(
+                    code
+                )
+            ) {
+
+                languages.set(
+                    code,
+                    name
+                );
+            }
+        }
+    );
+
+    languages.set(
+        "en",
+        "English"
+    );
+
+    languages.set(
+        "tr",
+        "Türkçe"
+    );
+
+    [
+        ...languages.entries()
+    ]
+        .sort(
+            (a, b) =>
+                a[1].localeCompare(
+                    b[1]
+                )
+        )
+        .forEach(
+            ([code, name]) => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    code;
+
+                option.textContent =
+                    name;
+
+                languageSelect.appendChild(
+                    option
+                );
+            }
+        );
+
+    languageSelect.value =
+        base;
+}
+
+
+/* =========================================================
+   QUICK PROMPTS
+========================================================= */
+
+function renderQuickPrompts() {
+
+    if (!quickPrompts) {
+        return;
+    }
+
+    const prompts =
+        Array.isArray(
+            t("prompts")
+        )
+            ? t("prompts")
+            : [];
+
+    quickPrompts.innerHTML =
+        "";
+
+    prompts.forEach(
+        prompt => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.type =
+                "button";
+
+            button.className =
+                "quick-prompt";
+
+            button.textContent =
+                prompt;
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    input.value =
+                        prompt;
+
+                    autoResize();
+
+                    input.focus();
+
+                }
+            );
+
+            quickPrompts.appendChild(
+                button
+            );
+        }
+    );
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+
+    toast.textContent =
+        safeText(message);
+
+    toast.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3000
+        );
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollToBottom() {
+
+    requestAnimationFrame(
+        () => {
+
+            chat.scrollTop =
+                chat.scrollHeight;
 
         }
+    );
+}
 
-    </script>
+
+/* =========================================================
+   TIME
+========================================================= */
+
+function getTime() {
+
+    try {
+
+        return new Date()
+            .toLocaleTimeString(
+                locale,
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+    } catch {
+
+        return new Date()
+            .toLocaleTimeString(
+                "en-US",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+    }
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function addMessage(
+    role,
+    content,
+    webResults = []
+) {
+
+    const welcome =
+        document.getElementById(
+            "welcome"
+        );
+
+    if (welcome) {
+
+        welcome.remove();
+    }
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+    message.className =
+        "message " + role;
+
+    const avatar =
+        document.createElement(
+            "div"
+        );
+
+    avatar.className =
+        "avatar " +
+        (
+            role === "ai"
+                ? "ai"
+                : "user"
+        );
+
+    if (
+        role === "ai"
+    ) {
+
+        const img =
+            document.createElement(
+                "img"
+            );
+
+        img.src =
+            "logo.png";
+
+        img.alt =
+            "Sardis";
+
+        img.onerror =
+            function () {
+
+                img.style.display =
+                    "none";
+            };
+
+        avatar.appendChild(
+            img
+        );
+
+    } else {
+
+        avatar.textContent =
+            "S";
+    }
+
+    const body =
+        document.createElement(
+            "div"
+        );
+
+    body.className =
+        "message-body";
+
+    const contentDiv =
+        document.createElement(
+            "div"
+        );
+
+    contentDiv.className =
+        "message-content";
+
+    contentDiv.textContent =
+        safeText(content);
+
+    body.appendChild(
+        contentDiv
+    );
+
+
+    /* =====================================================
+       WEB SOURCES
+    ====================================================== */
+
+    if (
+        role === "ai" &&
+        Array.isArray(webResults) &&
+        webResults.length > 0
+    ) {
+
+        const validResults =
+            webResults.filter(
+                result =>
+                    result &&
+                    result.link
+            );
+
+        if (
+            validResults.length
+        ) {
+
+            const sources =
+                document.createElement(
+                    "div"
+                );
+
+            sources.className =
+                "sources";
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+            title.className =
+                "sources-title";
+
+            title.textContent =
+                t("sources");
+
+            sources.appendChild(
+                title
+            );
+
+            validResults
+                .slice(0, 10)
+                .forEach(
+                    result => {
+
+                        const link =
+                            document.createElement(
+                                "a"
+                            );
+
+                        link.className =
+                            "source";
+
+                        link.href =
+                            result.link;
+
+                        link.target =
+                            "_blank";
+
+                        link.rel =
+                            "noopener noreferrer";
+
+                        link.textContent =
+                            safeText(
+                                result.title ||
+                                result.name ||
+                                result.link
+                            );
+
+                        sources.appendChild(
+                            link
+                        );
+                    }
+                );
+
+            body.appendChild(
+                sources
+            );
+        }
+    }
+
+
+    /* =====================================================
+       META
+    ====================================================== */
+
+    const meta =
+        document.createElement(
+            "div"
+        );
+
+    meta.className =
+        "message-meta";
+
+    const time =
+        document.createElement(
+            "span"
+        );
+
+    time.textContent =
+        getTime();
+
+    meta.appendChild(
+        time
+    );
+
+
+    /* =====================================================
+       COPY
+    ====================================================== */
+
+    if (
+        role === "ai"
+    ) {
+
+        const copy =
+            document.createElement(
+                "button"
+            );
+
+        copy.type =
+            "button";
+
+        copy.className =
+            "copy-btn";
+
+        copy.textContent =
+            t("copy");
+
+        copy.onclick =
+            async function () {
+
+                try {
+
+                    if (
+                        navigator.clipboard &&
+                        navigator.clipboard.writeText
+                    ) {
+
+                        await navigator
+                            .clipboard
+                            .writeText(
+                                safeText(content)
+                            );
+
+                    } else {
+
+                        const temp =
+                            document.createElement(
+                                "textarea"
+                            );
+
+                        temp.value =
+                            safeText(content);
+
+                        document.body.appendChild(
+                            temp
+                        );
+
+                        temp.select();
+
+                        document.execCommand(
+                            "copy"
+                        );
+
+                        temp.remove();
+                    }
+
+                    copy.textContent =
+                        t("copied");
+
+                    setTimeout(
+                        () => {
+
+                            copy.textContent =
+                                t("copy");
+
+                        },
+                        1500
+                    );
+
+                } catch {
+
+                    showToast(
+                        t("copyFail")
+                    );
+                }
+            };
+
+        meta.appendChild(
+            copy
+        );
+    }
+
+    body.appendChild(
+        meta
+    );
+
+    message.appendChild(
+        avatar
+    );
+
+    message.appendChild(
+        body
+    );
+
+    chatInner.appendChild(
+        message
+    );
+
+    scrollToBottom();
+}
+
+
+/* =========================================================
+   TYPING
+========================================================= */
+
+function showTyping() {
+
+    hideTyping();
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+    message.className =
+        "message ai";
+
+    message.id =
+        "typingMessage";
+
+    message.innerHTML = `
+
+        <div class="avatar ai">
+
+            <img
+                src="logo.png"
+                alt="Sardis"
+            >
+
+        </div>
+
+        <div class="message-body">
+
+            <div class="message-content">
+
+                <div class="typing">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    chatInner.appendChild(
+        message
+    );
+
+    scrollToBottom();
+}
+
+
+/* =========================================================
+   HIDE TYPING
+========================================================= */
+
+function hideTyping() {
+
+    const typing =
+        document.getElementById(
+            "typingMessage"
+        );
+
+    if (typing) {
+
+        typing.remove();
+    }
+}
+
+
+/* =========================================================
+   AUTO RESIZE
+========================================================= */
+
+function autoResize() {
+
+    input.style.height =
+        "auto";
+
+    input.style.height =
+        Math.min(
+            input.scrollHeight,
+            170
+        ) + "px";
+}
+
+
+/* =========================================================
+   CONVERSATION
+========================================================= */
+
+function updateConversation(
+    message
+) {
+
+    if (!sessionId) {
+        return;
+    }
+
+    let item =
+        conversations.find(
+            x =>
+                x.id ===
+                sessionId
+        );
+
+    if (!item) {
+
+        item = {
+
+            id:
+                sessionId,
+
+            title:
+                safeText(message)
+                    .length > 42
+                    ? safeText(message)
+                        .slice(0, 42) +
+                        "..."
+                    : safeText(message),
+
+            created:
+                Date.now()
+        };
+
+        conversations.unshift(
+            item
+        );
+    }
+
+    item.updated =
+        Date.now();
+
+    try {
+
+        localStorage.setItem(
+            "sardis_conversations",
+            JSON.stringify(
+                conversations
+            )
+        );
+
+    } catch {
+
+        /* Storage unavailable */
+
+    }
+
+    renderHistory();
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory() {
+
+    if (
+        !conversations.length
+    ) {
+
+        chatList.innerHTML = `
+
+            <div class="empty-history">
+                ${t("empty")}
+            </div>
+
+        `;
+
+        return;
+    }
+
+    chatList.innerHTML =
+        "";
+
+    conversations
+        .slice(0, 30)
+        .forEach(
+            item => {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+                button.type =
+                    "button";
+
+                button.className =
+                    "history-item";
+
+                if (
+                    item.id ===
+                    sessionId
+                ) {
+
+                    button.classList.add(
+                        "active"
+                    );
+                }
+
+                button.textContent =
+                    safeText(
+                        item.title
+                    );
+
+                button.title =
+                    safeText(
+                        item.title
+                    );
+
+                button.onclick =
+                    function () {
+
+                        sessionId =
+                            item.id;
+
+                        localStorage.setItem(
+                            "sardis_session",
+                            sessionId
+                        );
+
+                        renderHistory();
+
+                        showToast(
+                            t("selected")
+                        );
+
+                        sidebar.classList.remove(
+                            "open"
+                        );
+                    };
+
+                chatList.appendChild(
+                    button
+                );
+            }
+        );
+}
+
+
+/* =========================================================
+   NEW CHAT
+========================================================= */
+
+function newChat() {
+
+    sessionId =
+        null;
+
+    localStorage.removeItem(
+        "sardis_session"
+    );
+
+    chatInner.innerHTML = `
+
+        <div
+            class="welcome"
+            id="welcome"
+        >
+
+            <div class="welcome-logo">
+
+                <img
+                    src="logo.png"
+                    alt="Sardis"
+                    onerror="this.style.display='none'"
+                >
+
+            </div>
+
+            <h1>
+                Sardis
+            </h1>
+
+            <p id="welcomeText"></p>
+
+            <div
+                class="quick-prompts"
+                id="quickPrompts"
+            ></div>
+
+        </div>
+
+    `;
+
+    setLocale(
+        locale
+    );
+
+    input.value =
+        "";
+
+    autoResize();
+
+    renderHistory();
+
+    input.focus();
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+async function sendMessage() {
+
+    if (isSending) {
+        return;
+    }
+
+    const message =
+        input.value.trim();
+
+    if (!message) {
+        return;
+    }
+
+    isSending =
+        true;
+
+    sendBtn.disabled =
+        true;
+
+    input.disabled =
+        true;
+
+    addMessage(
+        "user",
+        message
+    );
+
+    updateConversation(
+        message
+    );
+
+    input.value =
+        "";
+
+    autoResize();
+
+    showTyping();
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/chat",
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            message:
+                                message,
+
+                            sessionId:
+                                sessionId,
+
+                            locale:
+                                locale
+                        })
+                }
+            );
+
+        let data;
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch {
+
+            throw new Error(
+                "Invalid server response."
+            );
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Server error."
+            );
+        }
+
+        if (
+            data.sessionId
+        ) {
+
+            sessionId =
+                data.sessionId;
+
+            localStorage.setItem(
+                "sardis_session",
+                sessionId
+            );
+
+            updateConversation(
+                message
+            );
+        }
+
+        hideTyping();
+
+        const answer =
+            data.answer ||
+            data.response ||
+            data.message ||
+            "Sardis could not generate an answer.";
+
+        const results =
+            Array.isArray(
+                data.webResults
+            )
+                ? data.webResults
+                : (
+                    Array.isArray(
+                        data.sources
+                    )
+                        ? data.sources
+                        : []
+                );
+
+        addMessage(
+            "ai",
+            answer,
+            results
+        );
+
+        if (
+            data.webSearch ||
+            data.webUsed ||
+            data.internetUsed
+        ) {
+
+            showToast(
+                t("web")
+            );
+        }
+
+    } catch (error) {
+
+        hideTyping();
+
+        const errorMessage =
+            error?.message ||
+            t("serverError");
+
+        addMessage(
+            "ai",
+            t("error") +
+            "\n\n" +
+            errorMessage
+        );
+
+        showToast(
+            t("serverError")
+        );
+
+    } finally {
+
+        isSending =
+            false;
+
+        sendBtn.disabled =
+            false;
+
+        input.disabled =
+            false;
+
+        input.focus();
+
+        scrollToBottom();
+    }
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+async function checkStatus() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/status",
+                {
+                    cache:
+                        "no-store"
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Status unavailable."
+            );
+        }
+
+        const data =
+            await response.json();
+
+        const ollamaOnline =
+            data.ollama?.status ===
+            "online";
+
+        const modelInstalled =
+            data.ollama?.modelInstalled !==
+            false;
+
+        const ready =
+            ollamaOnline &&
+            modelInstalled;
+
+        statusDot.classList.toggle(
+            "offline",
+            !ready
+        );
+
+        statusText.textContent =
+            ready
+                ? t("ready")
+                : t("offline");
+
+        onlineBadge.innerHTML = `
+
+            <span
+                class="status-dot ${
+                    ready
+                        ? ""
+                        : "offline"
+                }"
+            ></span>
+
+            <span id="onlineText">
+
+                ${
+                    ready
+                        ? t("online")
+                        : t("check")
+                }
+
+            </span>
+
+        `;
+
+        if (
+            data.ollama?.model
+        ) {
+
+            modelBadge.textContent =
+                t("model") +
+                data.ollama.model;
+        }
+
+    } catch {
+
+        statusDot.classList.add(
+            "offline"
+        );
+
+        statusText.textContent =
+            t("offline");
+
+        onlineBadge.innerHTML = `
+
+            <span
+                class="status-dot offline"
+            ></span>
+
+            <span id="onlineText">
+                ${t("check")}
+            </span>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   LANGUAGE CHANGE
+========================================================= */
+
+languageSelect.addEventListener(
+    "change",
+    function () {
+
+        const selected =
+            languageSelect.value;
+
+        setLocale(
+            selected
+        );
+
+        const languageName =
+            UI[base]?.name ||
+            EXTRA_LANGUAGES[base] ||
+            selected;
+
+        showToast(
+            t("language") +
+            ": " +
+            languageName
+        );
+
+        input.focus();
+    }
+);
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+input.addEventListener(
+    "input",
+    autoResize
+);
+
+
+/* =========================================================
+   ENTER
+========================================================= */
+
+input.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendMessage();
+        }
+    }
+);
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+sendBtn.addEventListener(
+    "click",
+    sendMessage
+);
+
+newChatBtn.addEventListener(
+    "click",
+    newChat
+);
+
+mobileMenu.addEventListener(
+    "click",
+    function () {
+
+        sidebar.classList.toggle(
+            "open"
+        );
+    }
+);
+
+
+/* =========================================================
+   ESC CLOSE MOBILE SIDEBAR
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            sidebar.classList.remove(
+                "open"
+            );
+        }
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+buildLanguageList();
+
+setLocale(
+    locale
+);
+
+renderHistory();
+
+checkStatus();
+
+setInterval(
+    checkStatus,
+    30000
+);
+
+autoResize();
+
+input.focus();
+
+</script>
 
 </body>
 </html>
