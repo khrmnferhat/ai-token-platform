@@ -1,2 +1,16 @@
 .env
 node_modules/
+.webui_secret_key
+*.db
+sardis-memory.json
+sardis-memory-backup.json
+openwebui-env/
+server-archive/
+_num_*
+_prec*
+_diag*
+_probe*
+_e2e_*
+_payload*
+_status.json
+_server_*.log
