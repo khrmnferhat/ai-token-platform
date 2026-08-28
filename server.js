@@ -48,6 +48,8 @@ const express = require("express");
 const path = require("path");
 const crypto = require("crypto");
 const fs = require("fs");
+
+require("dotenv").config();
  
 /* =========================================================
    APP
@@ -191,9 +193,35 @@ app.use(
     })
 );
  
+/* =========================================================
+   STATIC SECURITY
+   express.static(__dirname) would otherwise expose the whole
+   project root over HTTP. Only whitelisted public frontend
+   assets are allowed; backend files (server.js, .env, memory
+   json/db, logs, server-archive, package.json, test/diag
+   files, ...) are blocked with 403 before static serving.
+========================================================= */
+
+const PUBLIC_STATIC = new Set(["/", "/index.html", "/logo.png"]);
+
+app.use((req, res, next) => {
+    const pathname = req.path.toLowerCase();
+
+    if (pathname.startsWith("/api/")) {
+        return next();
+    }
+
+    if (PUBLIC_STATIC.has(pathname)) {
+        return next();
+    }
+
+    return res.status(403).send("Forbidden.");
+});
+
 app.use(
     express.static(__dirname, {
-        index: false
+        index: false,
+        dotfiles: "deny"
     })
 );
  

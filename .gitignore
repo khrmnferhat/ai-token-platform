@@ -14,3 +14,40 @@ _e2e_*
 _payload*
 _status.json
 _server_*.log
+_server.log
+_server.err
+
+# Environment & secrets (keep out of version control)
+.env
+.env.*
+!.env.example
+
+# IDE / editor
+.vscode/
+.idea/
+
+# Logs & runtime artifacts
+*.log
+nohup.out
+
+# Test / diagnostic files
+_test_*
+_diag_*
+_probe*
+_e2e_*
+_num_*
+_prec_*
+_payload*
+_*_fix.js
+
+# V5.1.x snapshots / server backups (never commit)
+server.js.BEFORE-*
+server.js.before-*
+server.js.BEFORE-*.js
+
+# Runtime databases / memory (local only)
+*.db
+sardis-memory.json
+sardis-memory-backup.json
+sardis-mem0-history.db
+memory.db

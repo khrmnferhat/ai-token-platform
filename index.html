@@ -35,23 +35,30 @@
 
 :root {
     --black: #000000;
-    --panel: #070707;
-    --panel-2: #0b0b0b;
+    --panel: #0e0e11;
+    --panel-2: #131318;
 
     --gold-dark: #8a6a16;
-    --gold: #c9a227;
-    --gold-main: #d4af37;
-    --gold-light: #f5d76e;
+    --gold: #c9a857;
+    --gold-main: #c9a857;
+    --gold-light: #e0c378;
     --gold-soft: #dfc35b;
 
-    --text: #f5f2e8;
-    --text-soft: #d8d2c3;
-    --muted: #77736a;
+    --text: #f5f5f4;
+    --text-soft: #c6c6cc;
+    --muted: #8a8a92;
 
-    --border: rgba(212,175,55,.15);
+    --border: rgba(255,255,255,.08);
+    --line-strong: rgba(255,255,255,.14);
+
+    --bg: #08080a;
+    --surface-1: #0e0e11;
+    --surface-2: #131318;
+    --elevated: #17171c;
+    --accent: #c9a857;
 
     --sidebar-width: 255px;
-    --content-width: 900px;
+    --content-width: 760px;
 }
 
 html,
@@ -75,7 +82,7 @@ body {
         sans-serif;
 
     color: var(--text);
-    background: #000;
+    background: #08080a;
 
     overflow: hidden;
 }
@@ -123,8 +130,8 @@ textarea:focus-visible {
     background:
         linear-gradient(
             180deg,
-            #030303 0%,
-            #000000 100%
+            #0a0a0d 0%,
+            #08080a 100%
         );
 
     border-right:
@@ -206,10 +213,10 @@ textarea:focus-visible {
 .brand-subtitle {
     margin-top: 2px;
 
-    color: #8c7740;
+    color: #a98c3e;
 
-    font-size: 9px;
-    letter-spacing: 1.6px;
+    font-size: 10px;
+    letter-spacing: 1.4px;
 
     font-weight: 600;
 }
@@ -217,21 +224,17 @@ textarea:focus-visible {
 .new-chat {
     margin: 18px;
 
-    height: 43px;
+    height: 44px;
 
     border:
-        1px solid rgba(212,175,55,.24);
+        1px solid rgba(255,255,255,.10);
 
     border-radius: 10px;
 
-    color: #d9bd5c;
+    color: #c6c6cc;
 
     background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,.06),
-            rgba(212,175,55,.025)
-        );
+        rgba(255,255,255,.03);
 
     font-size: 13px;
     font-weight: 600;
@@ -245,30 +248,30 @@ textarea:focus-visible {
 }
 
 .new-chat:hover {
-    color: #fff1a8;
+    color: #f5f5f4;
 
     border-color:
-        rgba(212,175,55,.5);
+        rgba(255,255,255,.20);
 
     background:
-        rgba(212,175,55,.09);
+        rgba(255,255,255,.05);
 
     box-shadow:
-        0 8px 25px rgba(212,175,55,.08);
+        0 8px 25px rgba(0,0,0,.28);
 
     transform: translateY(-1px);
 }
 
 .sidebar-section {
     padding:
-        4px 18px 8px;
+        6px 18px 8px;
 
-    color: #68655e;
+    color: #7d7d85;
 
-    font-size: 9px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
 
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
 
     text-transform: uppercase;
 }
@@ -288,7 +291,7 @@ textarea:focus-visible {
 
 .chat-list::-webkit-scrollbar-thumb,
 .chat::-webkit-scrollbar-thumb {
-    background: rgba(212,175,55,.15);
+    background: rgba(255,255,255,.14);
     border-radius: 999px;
 }
 
@@ -317,7 +320,7 @@ textarea:focus-visible {
 
     background: transparent;
 
-    color: #969188;
+    color: #a0a0a8;
 
     text-align: left;
 
@@ -336,16 +339,16 @@ textarea:focus-visible {
 
 .history-item:hover {
     background:
-        rgba(212,175,55,.055);
+        rgba(255,255,255,.045);
 
-    color: #ddd5c2;
+    color: #e0e0e6;
 }
 
 .history-item.active {
     background:
-        rgba(212,175,55,.08);
+        rgba(201,168,87,.10);
 
-    color: #e3c85e;
+    color: #e0c378;
 }
 
 .sidebar-bottom {
@@ -405,11 +408,11 @@ textarea:focus-visible {
 
     background:
         radial-gradient(
-            circle at 50% 20%,
-            rgba(212,175,55,.025),
-            transparent 35%
+            circle at 50% 18%,
+            rgba(201,168,87,.035),
+            transparent 40%
         ),
-        #000;
+        #08080a;
 }
 
 /* =========================================================
@@ -430,10 +433,10 @@ textarea:focus-visible {
     padding: 0 26px;
 
     border-bottom:
-        1px solid rgba(255,255,255,.07);
+        1px solid rgba(255,255,255,.06);
 
     background:
-        rgba(0,0,0,.94);
+        rgba(8,8,10,.86);
 
     /* backdrop-filter kaldırıldı: arkasında sürekli hareket eden
        aurora katmanları yüzünden her karede yeniden blur hesaplanıyor
@@ -468,11 +471,11 @@ textarea:focus-visible {
     padding: 4px 8px;
 
     border:
-        1px solid rgba(212,175,55,.15);
+        1px solid rgba(255,255,255,.10);
 
     border-radius: 999px;
 
-    color: #c9a227;
+    color: #e0c378;
 
     background:
         rgba(212,175,55,.035);
@@ -497,13 +500,13 @@ textarea:focus-visible {
     max-width: 190px;
 
     border:
-        1px solid rgba(212,175,55,.16);
+        1px solid rgba(255,255,255,.12);
 
     border-radius: 8px;
 
-    background: #080808;
+    background: #0e0e11;
 
-    color: #bfb8a7;
+    color: #bdbdc4;
 
     padding: 6px 8px;
 
@@ -523,11 +526,33 @@ textarea:focus-visible {
 }
 
 .model-badge {
-    color: #55524b;
+    color: #9b8a5c;
 
     font-size: 10px;
 
+    letter-spacing: .16em;
+
+    text-transform: uppercase;
+
     white-space: nowrap;
+}
+
+.model-badge::before {
+    content: "";
+
+    display: inline-block;
+
+    width: 4px;
+
+    height: 4px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: #d4af37;
+
+    vertical-align: 1px;
 }
 
 .mobile-menu {
@@ -537,7 +562,7 @@ textarea:focus-visible {
 
     background: transparent;
 
-    color: #c9a227;
+    color: #bdbdc4;
 
     font-size: 21px;
 }
@@ -555,10 +580,14 @@ textarea:focus-visible {
 
     background:
         radial-gradient(
-            circle at 50% 30%,
-            rgba(212,175,55,.018),
+            circle at 50% 28%,
+            rgba(201,168,87,.016),
             transparent 42%
         );
+}
+
+body:not(.chat-active) .chat {
+    flex: 0 0 auto;
 }
 
 .chat-inner {
@@ -579,7 +608,7 @@ textarea:focus-visible {
 ========================================================= */
 
 .welcome {
-    min-height: 63vh;
+    padding-top: clamp(32px, 9vh, 108px);
 
     display: flex;
 
@@ -593,8 +622,8 @@ textarea:focus-visible {
 }
 
 .welcome-logo {
-    width: 100px;
-    height: 100px;
+    width: 104px;
+    height: 104px;
 
     display: flex;
 
@@ -602,7 +631,7 @@ textarea:focus-visible {
 
     justify-content: center;
 
-    margin-bottom: 26px;
+    margin-bottom: 30px;
 
     background: transparent;
 }
@@ -637,84 +666,51 @@ textarea:focus-visible {
     mask-mode:
         luminance;
 
+    /* Maskeli logo şeklini takip eden yumuşak altın hale:
+       premium derinlik, görünür çerçeve yok. */
+    filter:
+        drop-shadow(0 10px 38px rgba(201,168,87,.16))
+        drop-shadow(0 2px 10px rgba(0,0,0,.6));
+
     display: block;
 }
 
 .welcome h1 {
-    margin-bottom: 11px;
+    margin-bottom: 16px;
 
-    color: #f3eee0;
+    color: #f3f1ec;
 
     font-size:
-        clamp(28px,4vw,40px);
+        clamp(34px,5vw,50px);
 
     font-weight: 650;
 
-    letter-spacing: -1.5px;
+    letter-spacing: -1.2px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fbf9f3 30%,
+            #c9c3b2 100%
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
 }
 
 .welcome p {
-    max-width: 570px;
+    max-width: 600px;
 
-    color: #9a9382;
+    padding: 0 24px;
 
-    font-size: 13.5px;
+    color: #c6c6cc;
 
-    line-height: 1.85;
-}
+    font-size: 16px;
 
-/* =========================================================
-   QUICK PROMPTS
-========================================================= */
-
-.quick-prompts {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    max-width: 720px;
-
-    margin-top: 25px;
-}
-
-.quick-prompt {
-    border:
-        1px solid rgba(212,175,55,.14);
-
-    border-radius: 999px;
-
-    padding: 9px 15px;
-
-    background:
-        rgba(212,175,55,.03);
-
-    color: #a79f8e;
-
-    font-size: 11px;
-
-    letter-spacing: .2px;
-
-    transition:
-        background .2s,
-        border-color .2s,
-        color .2s,
-        transform .2s;
-}
-
-.quick-prompt:hover {
-    background:
-        rgba(212,175,55,.07);
-
-    border-color:
-        rgba(212,175,55,.25);
-
-    color: #d4af37;
-
-    transform: translateY(-1px);
+    line-height: 1.7;
 }
 
 /* =========================================================
@@ -826,13 +822,13 @@ textarea:focus-visible {
 
 .message-content {
     padding:
-        15px 18px;
+        16px 20px;
 
     border-radius: 14px;
 
-    font-size: 14px;
+    font-size: 15px;
 
-    line-height: 1.8;
+    line-height: 1.75;
 
     white-space: pre-wrap;
 
@@ -841,12 +837,12 @@ textarea:focus-visible {
 
 .message.ai .message-content {
     background:
-        rgba(255,255,255,.03);
+        rgba(255,255,255,.035);
 
     border:
-        1px solid rgba(212,175,55,.10);
+        1px solid rgba(255,255,255,.07);
 
-    color: #eae5d8;
+    color: #e8e8ea;
 
     letter-spacing: .1px;
 }
@@ -855,30 +851,30 @@ textarea:focus-visible {
     background:
         linear-gradient(
             135deg,
-            #17150f,
-            #12110d
+            #18181c,
+            #131317
         );
 
     border:
-        1px solid rgba(212,175,55,.09);
+        1px solid rgba(255,255,255,.07);
 
-    color: #ded8c9;
+    color: #dcdce2;
 }
 
 .message-meta {
-    margin-top: 6px;
+    margin-top: 8px;
 
-    padding: 0 3px;
+    padding: 0 4px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
+    gap: 12px;
 
-    color: #504e48;
+    color: #6f6f76;
 
-    font-size: 9px;
+    font-size: 11px;
 }
 
 .message.user .message-meta {
@@ -890,15 +886,15 @@ textarea:focus-visible {
 
     background: transparent;
 
-    color: #55524c;
+    color: #6f6f76;
 
-    font-size: 9px;
+    font-size: 11px;
 
     transition: color .15s;
 }
 
 .copy-btn:hover {
-    color: #c9a227;
+    color: #e0c378;
 }
 
 /* =========================================================
@@ -906,17 +902,17 @@ textarea:focus-visible {
 ========================================================= */
 
 .sources {
-    margin-top: 10px;
+    margin-top: 12px;
 
-    padding: 11px;
+    padding: 12px;
 
     border:
-        1px solid rgba(212,175,55,.13);
+        1px solid rgba(255,255,255,.07);
 
     border-radius: 10px;
 
     background:
-        rgba(212,175,55,.025);
+        rgba(255,255,255,.02);
 }
 
 .sources-title {
@@ -937,11 +933,11 @@ textarea:focus-visible {
     border-bottom:
         1px solid rgba(255,255,255,.035);
 
-    color: #77736a;
+    color: #8f8f96;
 
     text-decoration: none;
 
-    font-size: 10px;
+    font-size: 11px;
 
     overflow: hidden;
 
@@ -957,7 +953,7 @@ textarea:focus-visible {
 }
 
 .source:hover {
-    color: #d4af37;
+    color: #e0c378;
 }
 
 /* =========================================================
@@ -994,6 +990,14 @@ textarea:focus-visible {
     animation-delay: .3s;
 }
 
+.typing svg {
+    align-self: center;
+
+    margin-right: 3px;
+
+    opacity: .85;
+}
+
 @keyframes typing {
 
     0%,
@@ -1013,7 +1017,22 @@ textarea:focus-visible {
    COMPOSER
 ========================================================= */
 
+/* WELCOME-mode layout: composer flows right under the
+   greeting (premium hero composition). CHAT-mode restores
+   the classic fixed bottom bar via body.chat-active. */
 .composer-area {
+    pointer-events: auto;
+
+    width:
+        min(
+            640px,
+            calc(100% - 48px)
+        );
+
+    margin: clamp(30px, 4.5vh, 50px) auto 0;
+}
+
+body.chat-active .composer-area {
     position: fixed;
 
     bottom: 0;
@@ -1021,6 +1040,10 @@ textarea:focus-visible {
     left: var(--sidebar-width);
 
     right: 0;
+
+    width: auto;
+
+    margin: 0;
 
     padding:
         18px 25px 22px;
@@ -1048,7 +1071,7 @@ textarea:focus-visible {
 
     margin: 0 auto;
 
-    padding: 9px 10px 8px;
+    padding: 12px 14px 10px;
 
     border:
         1px solid rgba(255,255,255,.10);
@@ -1056,10 +1079,33 @@ textarea:focus-visible {
     border-radius: 16px;
 
     background:
-        #0a0a0a;
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.015)
+        ),
+        #131318;
 
     box-shadow:
-        0 8px 28px rgba(0,0,0,.35);
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 24px 60px -28px rgba(0,0,0,.9);
+
+    transition:
+        border-color .25s,
+        box-shadow .25s;
+}
+
+.composer:hover {
+    border-color: rgba(255,255,255,.16);
+}
+
+.composer:focus-within {
+    border-color: rgba(201,168,87,.42);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 0 0 3px rgba(201,168,87,.08),
+        0 24px 60px -28px rgba(0,0,0,.9);
 }
 
 .input-row {
@@ -1073,7 +1119,7 @@ textarea:focus-visible {
 #messageInput {
     width: 100%;
 
-    min-height: 46px;
+    min-height: 48px;
 
     max-height: 180px;
 
@@ -1085,58 +1131,253 @@ textarea:focus-visible {
 
     background: transparent;
 
-    color: #f0ebdf;
+    color: #f0efe9;
+
+    caret-color: #c9a857;
 
     padding:
-        13px 15px;
+        13px 16px;
 
-    font-size: 14px;
+    font-size: 16px;
 
     line-height: 1.55;
 }
 
 #messageInput::placeholder {
-    color: #59564f;
+    color: #6d6d75;
 }
 
 #messageInput:disabled {
     opacity: .55;
 }
 
-.send-btn {
-    width: 43px;
-    height: 43px;
+.mic-btn {
+    width: 40px;
+
+    height: 40px;
 
     flex-shrink: 0;
 
     border: 0;
 
-    border-radius: 11px;
+    border-radius: 50%;
 
-    color: #090806;
+    display: inline-flex;
 
-    font-size: 17px;
+    align-items: center;
 
-    font-weight: 800;
+    justify-content: center;
+
+    background: transparent;
+
+    color: #8f8f96;
+
+    cursor: pointer;
+
+    transition:
+        background .2s,
+        color .2s;
+}
+
+.mic-btn:hover {
+
+    background:
+        rgba(255,255,255,.06);
+
+    color: #e8e8ea;
+}
+
+.mic-btn:focus-visible {
+
+    outline:
+        1px solid rgba(212,175,55,.55);
+
+    outline-offset: 2px;
+}
+
+.mic-btn.listening {
+
+    background:
+        rgba(212,175,55,.10);
+
+    color: #d9bc6a;
+}
+
+.mic-btn.listening svg {
+
+    animation:
+        micPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mic-btn.listening svg {
+        animation: none;
+    }
+}
+
+.mic-status {
+
+    color: #d9bc6a;
+
+    font-size: 11px;
+
+    letter-spacing: .4px;
+}
+
+/* TTS V1 — per-message read-aloud button */
+.tts-btn {
+    width: 32px;
+
+    height: 32px;
+
+    flex-shrink: 0;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: transparent;
+
+    color: #8f8f96;
+
+    cursor: pointer;
+
+    padding: 0;
+
+    transition:
+        background .2s,
+        color .2s;
+}
+
+.tts-btn svg {
+    display: block;
+}
+
+.tts-btn:hover {
+    background:
+        rgba(255,255,255,.06);
+
+    color: #e8e8ea;
+}
+
+.tts-btn:focus-visible {
+    outline:
+        1px solid rgba(212,175,55,.55);
+
+    outline-offset: 2px;
+}
+
+.tts-btn.speaking {
+    background:
+        rgba(212,175,55,.10);
+
+    color: #d9bc6a;
+}
+
+.tts-btn.speaking svg {
+    animation:
+        micPulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .tts-btn.speaking svg {
+        animation: none;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .tts-btn {
+        width: 44px;
+
+        height: 44px;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .mic-btn {
+        width: 44px;
+
+        height: 44px;
+    }
+}
+
+.send-btn {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(201,168,87,.55);
+
+    border-radius: 12px;
+
+    color: #0c0b08;
+
+    font-size: 18px;
+
+    font-weight: 600;
 
     background:
         linear-gradient(
-            135deg,
-            #927018,
-            #d4af37 38%,
-            #f4d76d 52%,
-            #b4891e 75%,
-            #826214
+            180deg,
+            #d9bc6a,
+            #c9a857
         );
 
-    box-shadow: none;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        0 8px 20px -10px rgba(201,168,87,.55);
 
     transition:
-        transform .15s;
+        transform .15s,
+        background .18s,
+        border-color .18s,
+        box-shadow .18s;
 }
 
 .send-btn:hover {
     transform: translateY(-1px);
+
+    background:
+        linear-gradient(
+            180deg,
+            #e5ca79,
+            #d2b05e
+        );
+
+    border-color: #d9bc6a;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.32),
+        0 10px 24px -10px rgba(201,168,87,.65);
+}
+
+.send-btn:focus-visible {
+    outline: 2px solid rgba(201,168,87,.5);
+
+    outline-offset: 2px;
 }
 
 .send-btn:disabled {
@@ -1151,15 +1392,19 @@ textarea:focus-visible {
 
 .composer-info {
     padding:
-        5px 9px 1px;
+        10px 12px 2px;
 
     display: flex;
 
-    justify-content: space-between;
+    justify-content: center;
 
-    color: #45433e;
+    color: rgba(255,255,255,.32);
 
-    font-size: 9px;
+    font-size: 9.5px;
+
+    letter-spacing: .22em;
+
+    text-transform: uppercase;
 }
 
 /* =========================================================
@@ -1265,6 +1510,9 @@ textarea:focus-visible {
 
     .mobile-menu {
         display: block;
+
+        width: 44px;
+        height: 44px;
     }
 
     .header {
@@ -1279,10 +1527,20 @@ textarea:focus-visible {
         max-width: 130px;
     }
 
-    .composer-area {
+    .new-chat {
+        height: 48px;
+    }
+
+    .send-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    body.chat-active .composer-area {
         left: 0;
 
         padding: 10px;
+        padding-bottom: calc(14px + env(safe-area-inset-bottom));
     }
 
     .chat-inner {
@@ -1301,7 +1559,7 @@ textarea:focus-visible {
     }
 
     .welcome {
-        min-height: 62vh;
+        padding-top: 6vh;
     }
 
     .welcome h1 {
@@ -1309,13 +1567,9 @@ textarea:focus-visible {
     }
 
     .welcome p {
-        padding: 0 10px;
+        padding: 0 18px;
 
-        font-size: 12px;
-    }
-
-    .quick-prompts {
-        padding: 0 8px;
+        font-size: 14.5px;
     }
 }
 
@@ -1437,7 +1691,7 @@ textarea:focus-visible {
     background:
         radial-gradient(
             circle at center,
-            rgba(212,175,55,.13),
+            rgba(201,168,87,.07),
             transparent 60%
         );
 }
@@ -1468,10 +1722,10 @@ textarea:focus-visible {
     background:
         linear-gradient(
             100deg,
-            #f7e9b0 0%,
-            #e7c65a 38%,
+            #f5ecd2 0%,
+            #e5cf8f 38%,
             #d4af37 55%,
-            #a8842a 100%
+            #a98c3e 100%
         );
 
     -webkit-background-clip: text;
@@ -1485,10 +1739,10 @@ textarea:focus-visible {
     background:
         linear-gradient(
             100deg,
-            #fdf3c4 0%,
-            #ecd06a 42%,
-            #d4af37 60%,
-            #9f7c26 100%
+            #fbf7ea 0%,
+            #ecd9a0 40%,
+            #d9bc6d 65%,
+            #b3903f 100%
         );
 
     -webkit-background-clip: text;
@@ -1508,11 +1762,6 @@ textarea:focus-visible {
 .welcome p {
     animation:
         welcomeIn .6s cubic-bezier(.2,.7,.3,1) .08s both;
-}
-
-.quick-prompts {
-    animation:
-        welcomeIn .65s cubic-bezier(.2,.7,.3,1) .16s both;
 }
 
 @keyframes welcomeIn {
@@ -1585,10 +1834,11 @@ textarea:focus-visible {
 
 .composer:focus-within {
     border-color:
-        rgba(212,175,55,.45);
+        rgba(201,168,87,.55);
 
     box-shadow:
-        0 10px 26px rgba(0,0,0,.38);
+        0 0 0 3px rgba(201,168,87,.08),
+        0 12px 30px rgba(0,0,0,.42);
 }
 
 .send-btn {
@@ -1694,14 +1944,275 @@ textarea:focus-visible {
    MISC
 --------------------------------------------------------- */
 
-.quick-prompt {
-    background:
-        rgba(212,175,55,.05);
-}
-
 html {
     scrollbar-color:
-        rgba(212,175,55,.22) transparent;
+        rgba(255,255,255,.16) transparent;
+}
+
+/* =========================================================
+   WORKING ACTIVITY PANEL V1 (SARDIS 5.1.8)
+   Lives at the BOTTOM HALF of the sidebar (below the
+   chat list) and takes ~50% height when mounted. Fed
+   ONLY by real /api/chat backend fields:
+     data.agent.steps · data.decision · data.toolErrors
+     data.webSearch   · data.webResults · data.claimValidation
+   Visual language: near-black surface (#070908), very light
+   muted-terminal green atmosphere. No neon, no rain, no glow.
+========================================================= */
+
+.activity-panel {
+    display: none;
+
+    margin: 0;
+
+    border-top: 1px solid rgba(96,140,104,.18);
+    border-bottom: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #070908 0%,
+            #080b09 100%
+        );
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+/* Mounted dock — bottom half of the usable sidebar */
+.activity-panel.active {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 0;
+    min-height: 225px;
+
+    border-right: 0;
+    border-left: 0;
+}
+
+/* ≈50/50 split: chat list shrinks equally while
+   PROGRAM AKIŞI occupies the lower half */
+.sidebar.has-flow .chat-list {
+    flex: 1 1 0;
+
+    min-height: 125px;
+}
+
+.sidebar.has-flow .sidebar-bottom {
+    flex-shrink: 0;
+}
+
+.activity-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 8px 10px 7px 12px;
+}
+
+.activity-title {
+    color: #93b19a;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.activity-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    margin: -4px -6px -4px 0;
+
+    border-radius: 6px;
+
+    color: #5f6f63;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    line-height: 1;
+}
+
+.activity-close:hover {
+    background: rgba(143,177,154,.08);
+    color: #9fbfa6;
+}
+
+/* Real-decision monospace meta line (from data.decision.mode) */
+.activity-meta {
+    padding: 0 12px 8px;
+
+    border-bottom:
+        1px dashed rgba(120,160,130,.14);
+
+    color: rgba(125,155,133,.72);
+
+    direction: ltr;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    font-family: ui-monospace, SFMono-Regular, Menlo,
+        Consolas, monospace;
+    font-size: 9.5px;
+    letter-spacing: .4px;
+}
+
+.activity-steps {
+    list-style: none;
+
+    margin: 0;
+    padding: 8px 4px 8px 0;
+
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+
+    /* Technical stream stays LTR even on RTL pages */
+    direction: ltr;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(110,150,118,.25) transparent;
+}
+
+.activity-steps li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    min-width: 0;
+
+    padding: 4px 10px 4px 11px;
+
+    color: #aebfb2;
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+.activity-steps li span {
+    min-width: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.activity-steps li::before {
+    content: "○";
+
+    flex-shrink: 0;
+    width: 12px;
+
+    color: #55645a;
+    font-family: ui-monospace, SFMono-Regular, Menlo,
+        Consolas, monospace;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* [●] active step — very soft breathing opacity only */
+.activity-steps li.active {
+    color: #dcebe0;
+}
+
+.activity-steps li.active::before {
+    content: "●";
+    color: #7fae8c;
+
+    animation: actBreathe 1.9s ease-in-out infinite;
+}
+
+@keyframes actBreathe {
+    0%, 100% { opacity: .5; }
+    50%      { opacity: 1; }
+}
+
+/* [✓] completed */
+.activity-steps li.done {
+    color: #9caea0;
+}
+
+.activity-steps li.done::before {
+    content: "✓";
+    color: #74a983;
+}
+
+/* [!] real tool error from data.toolErrors */
+.activity-steps li.err {
+    color: #cdb397;
+}
+
+.activity-steps li.err::before {
+    content: "!";
+    color: #c9995f;
+}
+
+/* [>] user's real programming request — first row */
+.activity-steps li.cmd {
+    color: #c4d4c7;
+
+    font-family: ui-monospace, SFMono-Regular, Menlo,
+        Consolas, monospace;
+
+    font-size: 11px;
+
+    letter-spacing: .2px;
+}
+
+.activity-steps li.cmd::before {
+    content: ">";
+
+    width: 12px;
+
+    color: #6d8a76;
+
+    font-family: ui-monospace, SFMono-Regular, Menlo,
+        Consolas, monospace;
+    font-size: 11px;
+
+    text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .activity-steps li.active::before {
+        animation: none;
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .activity-panel.active {
+        min-height: 190px;
+    }
+
+    .sidebar.has-flow .chat-list {
+        min-height: 110px;
+    }
+
+    .activity-close {
+        width: 44px;
+        height: 44px;
+        font-size: 15px;
+    }
+
 }
 
 </style>
@@ -1739,12 +2250,19 @@ html {
                 </div>
 
                 <div class="brand-subtitle">
-                    PREMIUM AI
+                    PERSONAL INTELLIGENCE
                 </div>
 
             </div>
 
         </div>
+
+        <!-- ==============================================
+             PROGRAM FLOW V2 — BOTTOM DOCK of sidebar.
+             Rendered ONLY during real programming/project
+             tasks (see SardisActivity controller). Normal
+             chat never mounts this node visually.
+        =============================================== -->
 
         <button
             class="new-chat"
@@ -1761,6 +2279,43 @@ html {
             class="chat-list"
             id="chatList"
         ></div>
+
+        <section
+            class="activity-panel"
+            id="activityPanel"
+            hidden
+            aria-hidden="true"
+            aria-label="Program flow"
+        >
+
+            <div class="activity-head">
+
+                <span class="activity-title">
+                    Program Akışı
+                </span>
+
+                <span
+                    class="activity-close"
+                    id="activityClose"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Close program flow"
+                    title="Close"
+                >×</span>
+
+            </div>
+
+            <div
+                class="activity-meta"
+                id="activityMeta"
+            ></div>
+
+            <ol
+                class="activity-steps"
+                id="activitySteps"
+            ></ol>
+
+        </section>
 
         <div class="sidebar-bottom">
 
@@ -1878,63 +2433,91 @@ html {
 
                     <p id="welcomeText"></p>
 
-                    <div
-                        class="quick-prompts"
-                        id="quickPrompts"
-                    ></div>
-
                 </div>
 
             </div>
 
         </section>
 
+        <!-- ==================================================
+             COMPOSER
+             Welcome modunda welcome'un hemen altında akış
+             içinde görünür; sohbet başlayınca (addMessage →
+             body.chat-active) sabit alt bara döner. Node dış
+             konteynerde tutulduğu için const input/sendBtn
+             bağlamları ve newChat şablonu güvenli kalır.
+        =================================================== -->
+
+        <div class="composer-area">
+
+            <div class="composer">
+
+                <div class="input-row">
+
+                    <textarea
+                        id="messageInput"
+                        rows="1"
+                        maxlength="10000"
+                        autocomplete="off"
+                        spellcheck="true"
+                    ></textarea>
+
+                    <button
+                        class="mic-btn"
+                        id="micBtn"
+                        type="button"
+                        title="Voice input"
+                        aria-label="Voice input"
+                        aria-pressed="false"
+                        hidden
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="16"
+                            height="16"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                            aria-hidden="true"
+                        >
+                            <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+                            <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"></path>
+                            <path d="M12 18v3"></path>
+                        </svg>
+                    </button>
+
+                    <button
+                        class="send-btn"
+                        id="sendBtn"
+                        type="button"
+                        title="Send"
+                        aria-label="Send"
+                    >
+                        ↑
+                    </button>
+
+                </div>
+
+                <div class="composer-info">
+
+                    <span class="mic-status" id="micStatus" hidden></span>
+
+                    <span>
+                        Sardis AI
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- WORKING ACTIVITY V1 now lives at the top of the
+             sidebar (#activityPanel). Removed the former inert
+             seat here to keep element IDs unique. -->
+
     </main>
-
-</div>
-
-
-<!-- =========================================================
-     COMPOSER
-========================================================= -->
-
-<div class="composer-area">
-
-    <div class="composer">
-
-        <div class="input-row">
-
-            <textarea
-                id="messageInput"
-                rows="1"
-                maxlength="10000"
-                autocomplete="off"
-                spellcheck="true"
-            ></textarea>
-
-            <button
-                class="send-btn"
-                id="sendBtn"
-                type="button"
-                title="Send"
-                aria-label="Send"
-            >
-                ↑
-            </button>
-
-        </div>
-
-        <div class="composer-info">
-
-            <span>
-                Sardis AI
-            </span>
-
-            <span id="composerHint"></span>
-
-        </div>
-
-    </div>
 
 </div>
 
@@ -1954,6 +2537,611 @@ html {
 <script>
 
 "use strict";
+
+/* =========================================================
+   WORKING ACTIVITY CONTROLLER V1 (SARDIS 5.1.8)
+   Injected below in three parts. See window.SardisActivity.
+========================================================= */
+window.SardisActivity = (function () {
+
+    const panel =
+        document.getElementById("activityPanel");
+
+    const stepsEl =
+        document.getElementById("activitySteps");
+
+    const metaEl =
+        document.getElementById("activityMeta");
+
+    const sidebarEl =
+        document.getElementById("sidebar");
+
+    /* pendingSince = last sendMessage start tick;
+       closedAt    = user's last explicit close tick.
+       A close during a running task keeps the panel
+       closed for that task; the NEXT real task may
+       auto-open again. lastUserText feeds the PROGRAM
+       FLOW detector (real user request, no guessing). */
+    const state = {
+        open: false,
+        pendingSince: 0,
+        closedAt: -1,
+        lastUserText: ""
+    };
+
+    /* Decision modes that really execute backend tools */
+    const TOOL_MODES = {
+        weather: true,
+        crypto: true,
+        web: true,
+        web_search: true,
+        multi_tool: true,
+        research: true,
+        web_research: true,
+        web_retry: true,
+        web_research_no_evidence: true,
+        claim_verification: true,
+        numeric_claim_verification: true,
+        verify_claims: true
+    };
+
+    /* Backend tool-id to human label */
+    const TOOL_LABELS = {
+        web_search: "Web search",
+        web_reader: "Read page",
+        weather: "Weather lookup",
+        crypto: "Crypto lookup",
+        memory: "Memory access"
+    };
+
+    /* Mode fallback when a trace step has no tools */
+    const MODE_LABELS = {
+        weather: "Weather lookup",
+        crypto: "Crypto lookup",
+        memory: "Memory access",
+        web: "Web search",
+        web_research: "Web search",
+        web_retry: "Web search (retry)",
+        multi_tool: "Multi-tool run",
+        claim_verification: "Source verification",
+        numeric_claim_verification: "Numeric verification",
+        verify_claims: "Source verification",
+        web_research_no_evidence: "Web search"
+    };
+
+    function humanize(raw) {
+
+        return String(raw || "step")
+            .replace(/_/g, " ")
+            .replace(
+                /\b\w/g,
+                function (c) {
+                    return c.toUpperCase();
+                }
+            );
+    }
+
+    /* ---- PROGRAM FLOW detection (V2) ---------------------
+       Sardis is a chat app by default. The PROGRAM AKIŞI
+       dock may mount ONLY for real programming / project
+       tasks. Weather, crypto, web research, memory or claim
+       runs must NEVER mount it (spec tests 6-8), and merely
+       containing the word "kod" must not either.
+       These functions are pure → extractable for testing. */
+
+    /* AC-DETECT-BEGIN */
+
+    /* Decision modes that execute generic tools — none of
+       them is programming activity, so they veto mounting */
+    const NON_CODE_MODES = TOOL_MODES;
+
+    const CODE_FILE_RE =
+        /\b[\w@.-]+\.(?:js|mjs|cjs|ts|jsx|tsx|py|html|htm|css|json|md|yml|yaml|sh|sql|toml)\b/i;
+
+    const CODE_CTX_RE =
+        /\b(kod[a-zıüöçş]*|code|coding|proje[a-zıüöçş]*|project|repo[a-zıüöçş]*|backend[ıi']*(?:n(?:de|un))?|front-?end|api|endpoint|fonksiyon(?:u)?|işlev(?:i)?|fonksiyon|modül(?:ü)?|module|script(?:'?i)?)\b/i;
+
+    const CODE_ACT_RE =
+        /\b(analiz|analyze|geliştir|gelistir|improve|refactor|refaktör|optimize|düzelt|duzelt|fix|debug|hata(?:s[ıi](?:n[ıi]))?|bug|test(?:i|leri)?|inspect|incele|oku|read|değiştir|degistir|modify|ekle|add|extend|migrate|kurulum|yapılandır|çalıştır|calistir|deploy)\b/i;
+
+    /* Innocent questions that must stay plain chat even if
+       some tokens collide ("python nedir", "kodlama kursu") */
+    const CODE_VETO_RE =
+        /\b(öğren(?:mek|iyor)?|öğret(?:mek)?|nedir|ne demek|kimdir|kurs(?:u|ları)?)\b/i;
+
+    /* Spec-example imperative forms — direct strong signal */
+    const CODE_SPECIFIC_RE =
+        /(bug'?ı\s+(bul|düzelt)|hatayı\s+düzelt|analiz\s+et|(api|endpoint|fonksiyon|işlev)\s+(ekle|add)|projeyi\s+test|[ck]line\s+gibi)/i;
+
+    function looksLikeCodingPrompt(text) {
+
+        const t =
+            String(text || "")
+                .toLowerCase()
+                .trim();
+
+        if (t.length < 6) {
+            return false;
+        }
+
+        if (CODE_VETO_RE.test(t)) {
+            return false;
+        }
+
+        if (CODE_SPECIFIC_RE.test(t)) {
+            return true;
+        }
+
+        if (
+            CODE_FILE_RE.test(t) &&
+            CODE_ACT_RE.test(t)
+        ) {
+            return true;
+        }
+
+        return CODE_CTX_RE.test(t) &&
+               CODE_ACT_RE.test(t);
+    }
+
+    /* Real backend fields stay authoritative. Modes that provably
+       ran a dedicated non-code tool (weather, crypto, web search,
+       claim checks …) veto mounting. multi_tool is AMBIGUOUS — the
+       planner may run web tools even on genuine coding tasks, so
+       the user's real phrasing decides there instead of the mode
+       alone; a non-coding prompt under multi_tool stays closed. */
+    function shouldShowFlow(d, userText) {
+
+        if (!d) {
+            return false;
+        }
+
+        const dm =
+            d.decision?.mode || d.mode || "";
+
+        if (dm === "multi_tool") {
+            return looksLikeCodingPrompt(userText);
+        }
+
+        if (typeof dm === "string" && NON_CODE_MODES[dm]) {
+            return false;
+        }
+
+        return looksLikeCodingPrompt(userText);
+    }
+
+    /* AC-DETECT-END */
+
+    /* ---- Trigger detection (real fields only) ----------- */
+
+    function hasRealWork(d) {
+
+        if (!d) {
+            return false;
+        }
+
+        if (
+            Array.isArray(d.agent?.steps) &&
+            d.agent.steps.length > 0
+        ) {
+            return true;
+        }
+
+        if (d.webSearch === true) {
+            return true;
+        }
+
+        if (
+            Array.isArray(d.webResults) &&
+            d.webResults.length > 0
+        ) {
+            return true;
+        }
+
+        if (
+            Array.isArray(d.toolErrors) &&
+            d.toolErrors.length > 0
+        ) {
+            return true;
+        }
+
+        if (d.claimValidation) {
+            return true;
+        }
+
+        const dm =
+            d.decision?.mode || d.mode;
+
+        return typeof dm === "string" &&
+               Boolean(TOOL_MODES[dm]);
+    }
+
+    /* Short echo of the real user request (row 1) */
+    function shortCmd(text) {
+
+        let s =
+            String(text || "")
+                .replace(/\s+/g, " ")
+                .trim()
+                .toLowerCase();
+
+        if (s.length > 46) {
+            s = s.slice(0, 45) + "…";
+        }
+
+        return s;
+    }
+
+    /* ---- Row builder -------------------------------------
+       Every row maps to an actual backend fact. The response
+       has fully arrived, so completed work is [✓]; real tool
+       errors [!]; honestly missing evidence stays a note. */
+    function buildRows(d) {
+
+        const rows = [];
+
+        /* Row 1 — the user's own, real instruction. This is
+           genuine data (what was asked), never invented. */
+        if (state.lastUserText) {
+            rows.push({
+                cls: "cmd",
+                label: shortCmd(state.lastUserText)
+            });
+        }
+
+        const trace =
+            d.agent && Array.isArray(d.agent.steps)
+                ? d.agent.steps.filter(
+                    s => s &&
+                    (
+                        s.mode ||
+                        s.tools ||
+                        s.step
+                    )
+                )
+                : [];
+
+        trace.forEach(
+            st => {
+
+                const tools =
+                    Array.isArray(st.tools) ? st.tools : [];
+
+                const label =
+                    tools.length > 0
+                        ? tools.map(
+                            tl =>
+                            TOOL_LABELS[tl] || humanize(tl)
+                        ).join(" + ")
+                        : MODE_LABELS[st.mode] || humanize(st.mode);
+
+                rows.push({
+                    cls: "done",
+                    label: label
+                });
+            }
+        );
+
+        if (trace.length === 0) {
+
+            const dm =
+                d.decision?.mode || d.mode;
+
+            if (
+                typeof dm === "string" &&
+                MODE_LABELS[dm]
+            ) {
+                rows.push({
+                    cls: "done",
+                    label: MODE_LABELS[dm]
+                });
+            }
+        }
+
+        if (d.webResults?.length > 0) {
+
+            rows.push({
+                cls: "done",
+                label:
+                    "Sources gathered · " +
+                    d.webResults.length
+            });
+        }
+        else if (
+            d.webSearch === true &&
+            trace.length === 0
+        ) {
+            rows.push({
+                cls: "pend",
+                label: "No usable evidence"
+            });
+        }
+
+        const cv = d.claimValidation;
+
+        if (cv) {
+
+            if (cv.verdict === "supported") {
+
+                rows.push({
+                    cls: "done",
+                    label: "Verified by sources"
+                });
+            }
+            else if (cv.verdict === "contradicted") {
+
+                rows.push({
+                    cls: "err",
+                    label: "Contradicted by sources"
+                });
+            }
+            else {
+
+                rows.push({
+                    cls: "pend",
+                    label: "Verification inconclusive"
+                });
+            }
+        }
+
+        if (d.toolErrors?.length > 0) {
+
+            rows.push({
+                cls: "err",
+                label:
+                    "Tool errors · " +
+                    d.toolErrors.length
+            });
+        }
+
+        if (rows.length > 0) {
+
+            rows.push({
+                cls: "done",
+                label: "Answer ready"
+            });
+        }
+
+        return rows;
+    }
+
+    /* ---- Rendering --------------------------------------- */
+
+    function renderRows(rows) {
+
+        if (!stepsEl) {
+            return;
+        }
+
+        stepsEl.textContent = "";
+
+        rows.forEach(
+            r => {
+
+                const li =
+                    document.createElement("li");
+
+                li.className = r.cls;
+
+                const span =
+                    document.createElement("span");
+
+                span.textContent = r.label;
+
+                span.title = r.label;
+
+                li.appendChild(span);
+
+                stepsEl.appendChild(li);
+            }
+        );
+
+        /* Terminal "last event" emphasis — real timing,
+           not simulation: the last rendered fact. */
+        const last = stepsEl.lastElementChild;
+
+        if (last) {
+            last.className = "active";
+        }
+    }
+
+    function renderMeta(d) {
+
+        if (!metaEl) {
+            return;
+        }
+
+        /* Null-safe: plain-chat responses clear the meta line */
+        if (!d || typeof d !== "object") {
+            metaEl.textContent = "";
+            metaEl.style.display = "none";
+            return;
+        }
+
+        const parts = [];
+
+        const dm =
+            d.decision?.mode || d.mode;
+
+        if (typeof dm === "string" && dm) {
+            parts.push(dm);
+        }
+
+        if (Number.isFinite(d.responseTime)) {
+            parts.push(
+                Math.round(d.responseTime) + "ms"
+            );
+        }
+
+        metaEl.textContent =
+            parts.join(" · ");
+
+        metaEl.style.display =
+            parts.length ? "" : "none";
+    }
+
+    function setOpen(nextOpen) {
+
+        state.open = nextOpen;
+
+        if (!panel) {
+            return;
+        }
+
+        panel.hidden =
+            !nextOpen;
+
+        panel.classList.toggle(
+            "active",
+            nextOpen
+        );
+
+        panel.setAttribute(
+            "aria-hidden",
+            String(!nextOpen)
+        );
+
+        /* 50/50 SIDEBAR SPLIT — mount/dismount the lower
+           PROGRAM AKIŞI dock together with the flow state */
+        if (sidebarEl) {
+            sidebarEl.classList.toggle(
+                "has-flow",
+                nextOpen
+            );
+        }
+    }
+
+    /* ---- Task-aware open/dismiss behavior ---------------- */
+
+    function notifySend(userText) {
+
+        state.pendingSince =
+            Date.now();
+
+        state.lastUserText =
+            String(userText || "").trim();
+    }
+
+    function handleChatData(d) {
+
+        try {
+
+            if (!panel) {
+                return;
+            }
+
+            /* PROGRAM AKIŞI belongs ONLY to coding/project
+               tasks. Plain chat, weather, crypto or web
+               research responses hide the dock again (spec
+               test 5: task ended → next "Merhaba" hides it). */
+            if (
+                !shouldShowFlow(d, state.lastUserText)
+            ) {
+                setOpen(false);
+
+                state.pendingSince = 0;
+
+                renderRows([]);
+
+                renderMeta(null);
+
+                return;
+            }
+
+            const rows =
+                buildRows(d);
+
+            if (rows.length === 0) {
+                return;
+            }
+
+            renderRows(rows);
+
+            renderMeta(d);
+
+            const dismissedThisTask =
+                state.closedAt >= state.pendingSince &&
+                state.pendingSince > 0;
+
+            if (dismissedThisTask) {
+
+                /* Same-task preference kept; next task
+                   may reopen on its own */
+                state.closedAt = -1;
+                return;
+            }
+
+            setOpen(true);
+        }
+        catch (err) {
+
+            /* Activity rendering must never break chat */
+            console.warn("[Sardis] activity error", err);
+        }
+    }
+
+    function close(byUser) {
+
+        setOpen(false);
+
+        if (byUser) {
+            state.closedAt =
+                Date.now();
+        }
+    }
+
+    function open() {
+        setOpen(true);
+    }
+
+    /* ---- Close control ----------------------------------- */
+
+    if (panel && document.getElementById("activityClose")) {
+
+        const closeEl =
+            document.getElementById("activityClose");
+
+        closeEl.addEventListener(
+            "click",
+            function () {
+                close(true);
+            }
+        );
+
+        closeEl.addEventListener(
+            "keydown",
+            function (ev) {
+
+                if (
+                    ev.key === "Enter" ||
+                    ev.key === " "
+                ) {
+                    ev.preventDefault();
+                    close(true);
+                }
+            }
+        );
+    }
+
+    /* ---- Public API -------------------------------------- */
+
+    const api = {
+        open: open,
+        close: close,
+        notifySend: notifySend,
+        handleChatData: handleChatData,
+        hasRealWork: hasRealWork,
+        shouldShowFlow: shouldShowFlow,
+        looksLikeCodingPrompt: looksLikeCodingPrompt,
+        isOpen: function () {
+            return state.open;
+        }
+    };
+
+    /* Legacy global kept for compatibility */
+    window.__SARDIS_ACTIVITY__ = api;
+
+    return api;
+})();
 
 /* =========================================================
    MULTILINGUAL UI
@@ -2003,13 +3191,7 @@ const UI = {
         verifiedTrue:
             "Verified by sources",
         verifiedFalse:
-            "Contradicted by sources",
-        prompts: [
-            "Help me with today's tasks",
-            "Search the web for current information",
-            "Research and summarize something",
-            "Show me what you remember"
-        ]
+            "Contradicted by sources"
     },
 
     tr: {
@@ -2054,13 +3236,7 @@ const UI = {
         verifiedTrue:
             "Kaynaklarla doğrulandı",
         verifiedFalse:
-            "Kaynaklar tarafından çürütüldü",
-        prompts: [
-            "Bugün bana yardımcı ol",
-            "Web'de güncel bir bilgi ara",
-            "Bir şeyi araştır ve özetle",
-            "Bana hatırladıklarımı göster"
-        ]
+            "Kaynaklar tarafından çürütüldü"
     },
 
     de: {
@@ -2087,13 +3263,7 @@ const UI = {
         serverError: "Verbindungs- oder Serverfehler.",
         selected: "Chatsitzung ausgewählt.",
         language: "Sprache",
-        model: "Modell: ",
-        prompts: [
-            "Hilf mir heute",
-            "Suche aktuelle Informationen im Web",
-            "Recherchiere etwas und fasse es zusammen",
-            "Zeig mir, an was du dich erinnerst"
-        ]
+        model: "Modell: "
     },
 
     fr: {
@@ -2120,13 +3290,7 @@ const UI = {
         serverError: "Erreur de connexion ou du serveur.",
         selected: "Session de discussion sélectionnée.",
         language: "Langue",
-        model: "Modèle : ",
-        prompts: [
-            "Aide-moi aujourd'hui",
-            "Cherche une information récente sur le web",
-            "Recherche quelque chose et fais-en un résumé",
-            "Montre-moi ce dont tu te souviens"
-        ]
+        model: "Modèle : "
     },
 
     es: {
@@ -2153,13 +3317,7 @@ const UI = {
         serverError: "Error de conexión o del servidor.",
         selected: "Sesión de chat seleccionada.",
         language: "Idioma",
-        model: "Modelo: ",
-        prompts: [
-            "Ayúdame hoy",
-            "Busca información actual en la web",
-            "Investiga algo y resúmelo",
-            "Muéstrame lo que recuerdas"
-        ]
+        model: "Modelo: "
     },
 
     it: {
@@ -2186,13 +3344,7 @@ const UI = {
         serverError: "Errore di connessione o server.",
         selected: "Sessione chat selezionata.",
         language: "Lingua",
-        model: "Modello: ",
-        prompts: [
-            "Aiutami oggi",
-            "Cerca informazioni aggiornate sul web",
-            "Ricerca qualcosa e riassumilo",
-            "Mostrami ciò che ricordi di me"
-        ]
+        model: "Modello: "
     },
 
     pt: {
@@ -2219,13 +3371,7 @@ const UI = {
         serverError: "Erro de conexão ou servidor.",
         selected: "Sessão de conversa selecionada.",
         language: "Idioma",
-        model: "Modelo: ",
-        prompts: [
-            "Ajude-me hoje",
-            "Procure informações atuais na web",
-            "Pesquise algo e resuma",
-            "Mostre o que lembra de mim"
-        ]
+        model: "Modelo: "
     },
 
     nl: {
@@ -2252,13 +3398,7 @@ const UI = {
         serverError: "Verbindings- of serverfout.",
         selected: "Chatsessie geselecteerd.",
         language: "Taal",
-        model: "Model: ",
-        prompts: [
-            "Help me vandaag",
-            "Zoek actuele informatie op het web",
-            "Onderzoek iets en vat het samen",
-            "Toon me wat je onthoudt"
-        ]
+        model: "Model: "
     },
 
     pl: {
@@ -2285,13 +3425,7 @@ const UI = {
         serverError: "Błąd połączenia lub serwera.",
         selected: "Wybrano sesję czatu.",
         language: "Język",
-        model: "Model: ",
-        prompts: [
-            "Pomóż mi dzisiaj",
-            "Znajdź aktualne informacje w sieci",
-            "Przeprowadź badania i podsumuj",
-            "Pokaż, co o mnie pamiętasz"
-        ]
+        model: "Model: "
     },
 
     ru: {
@@ -2318,13 +3452,7 @@ const UI = {
         serverError: "Ошибка подключения или сервера.",
         selected: "Сессия чата выбрана.",
         language: "Язык",
-        model: "Модель: ",
-        prompts: [
-            "Помоги мне сегодня",
-            "Найди актуальную информацию в интернете",
-            "Исследуй что-то и подведи итог",
-            "Покажи всё, что ты помнишь обо мне"
-        ]
+        model: "Модель: "
     },
 
     ja: {
@@ -2351,13 +3479,7 @@ const UI = {
         serverError: "接続またはサーバーエラーです。",
         selected: "チャットセッションを選択しました。",
         language: "言語",
-        model: "モデル: ",
-        prompts: [
-            "今日を手伝ってください",
-            "ウェブで最新情報を検索してください",
-            "何かを調べてまとめてください",
-            "覚えていることを見せてください"
-        ]
+        model: "モデル: "
     },
 
     ko: {
@@ -2384,13 +3506,7 @@ const UI = {
         serverError: "연결 또는 서버 오류입니다.",
         selected: "채팅 세션을 선택했습니다.",
         language: "언어",
-        model: "모델: ",
-        prompts: [
-            "오늘 나를 도와주세요",
-            "웹에서 최신 정보를 검색해주세요",
-            "무언가를 조사하고 정리해주세요",
-            "저장된 기억을 보여주세요"
-        ]
+        model: "모델: "
     },
 
     zh: {
@@ -2417,13 +3533,7 @@ const UI = {
         serverError: "连接或服务器错误。",
         selected: "已选择聊天会话。",
         language: "语言",
-        model: "模型：",
-        prompts: [
-            "今天请帮助我",
-            "在网上搜索最新信息",
-            "调查某件事并总结",
-            "显示我记得的内容"
-        ]
+        model: "模型："
     }
 };
 
@@ -2585,9 +3695,6 @@ const mobileMenu =
 
 const languageSelect =
     document.getElementById("languageSelect");
-
-const quickPrompts =
-    document.getElementById("quickPrompts");
 
 
 /* =========================================================
@@ -2761,19 +3868,12 @@ function setLocale(value) {
         t("placeholder");
 
     document.getElementById(
-        "composerHint"
-    ).textContent =
-        t("hint");
-
-    document.getElementById(
         "onlineText"
     ).textContent =
         t("online");
 
-    modelBadge.dataset.prefix =
-        t("model");
-
-    renderQuickPrompts();
+    modelBadge.textContent =
+        "Sardium Ecosystem";
 
     renderHistory();
 
@@ -2862,65 +3962,6 @@ function buildLanguageList() {
 
     languageSelect.value =
         base;
-}
-
-
-/* =========================================================
-   QUICK PROMPTS
-========================================================= */
-
-function renderQuickPrompts() {
-
-    if (!quickPrompts) {
-        return;
-    }
-
-    const prompts =
-        Array.isArray(
-            t("prompts")
-        )
-            ? t("prompts")
-            : [];
-
-    quickPrompts.innerHTML =
-        "";
-
-    prompts.forEach(
-        prompt => {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-            button.type =
-                "button";
-
-            button.className =
-                "quick-prompt";
-
-            button.textContent =
-                prompt;
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    input.value =
-                        prompt;
-
-                    autoResize();
-
-                    input.focus();
-
-                }
-            );
-
-            quickPrompts.appendChild(
-                button
-            );
-        }
-    );
 }
 
 
@@ -3023,6 +4064,10 @@ function addMessage(
 
         welcome.remove();
     }
+
+    document.body.classList.add(
+        "chat-active"
+    );
 
     const message =
         document.createElement(
@@ -3333,6 +4378,11 @@ function addMessage(
         meta.appendChild(
             copy
         );
+
+        attachTtsButton(
+            meta,
+            safeText(content)
+        );
     }
 
     body.appendChild(
@@ -3390,6 +4440,23 @@ function showTyping() {
             <div class="message-content">
 
                 <div class="typing">
+
+                    <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#d4af37"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        aria-hidden="true"
+                    >
+                        <circle cx="12" cy="12" r="4.2"></circle>
+                        <path d="M12 2.8v2.6"></path>
+                        <path d="M12 18.6v2.6"></path>
+                        <path d="M2.8 12h2.6"></path>
+                        <path d="M18.6 12h2.6"></path>
+                    </svg>
 
                     <span></span>
                     <span></span>
@@ -3636,14 +4703,13 @@ function newChat() {
 
             <p id="welcomeText"></p>
 
-            <div
-                class="quick-prompts"
-                id="quickPrompts"
-            ></div>
-
         </div>
 
     `;
+
+    document.body.classList.remove(
+        "chat-active"
+    );
 
     setLocale(
         locale
@@ -3680,6 +4746,13 @@ async function sendMessage() {
     isSending =
         true;
 
+    if (
+        typeof ttsCancel === "function"
+    ) {
+
+        ttsCancel();
+    }
+
     sendBtn.disabled =
         true;
 
@@ -3701,6 +4774,12 @@ async function sendMessage() {
     autoResize();
 
     showTyping();
+
+    if (
+        window.SardisActivity
+    ) {
+        window.SardisActivity.notifySend(message);
+    }
 
     try {
 
@@ -3798,6 +4877,14 @@ async function sendMessage() {
             results,
             data.claimValidation || null
         );
+
+        if (
+            window.SardisActivity
+        ) {
+            window.SardisActivity.handleChatData(
+                data
+            );
+        }
 
         if (
             data.webSearch ||
@@ -3918,15 +5005,6 @@ async function checkStatus() {
 
         `;
 
-        if (
-            data.ollama?.model
-        ) {
-
-            modelBadge.textContent =
-                t("model") +
-                data.ollama.model;
-        }
-
     } catch {
 
         statusDot.classList.add(
@@ -4036,6 +5114,486 @@ mobileMenu.addEventListener(
         );
     }
 );
+
+
+/* =========================================================
+   VOICE INPUT V1 (browser SpeechRecognition)
+   Speech → text → user reviews/edits → existing SEND flow.
+   Browser-side only; /api/chat untouched. Recognition
+   language follows the live user locale (setLocale).
+========================================================= */
+
+const micBtn =
+    document.getElementById("micBtn");
+
+const micStatus =
+    document.getElementById("micStatus");
+
+const MIC_I18N = {
+
+    tr: {
+        title: "Sesli giriş",
+        listening: "Dinliyor…",
+        denied: "Mikrofon izni verilmedi.",
+        error: "Ses tanıma başlatılamadı."
+    },
+
+    en: {
+        title: "Voice input",
+        listening: "Listening…",
+        denied: "Microphone permission denied.",
+        error: "Speech recognition failed."
+    }
+};
+
+const micSpeechCtor =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition ||
+    null;
+
+const micText = function () {
+    return MIC_I18N[base] || MIC_I18N.en;
+};
+
+let recognition =
+    null;
+
+let listening =
+    false;
+
+function setMicState(on) {
+
+    listening =
+        on;
+
+    if (micBtn) {
+
+        micBtn.classList.toggle(
+            "listening",
+            on
+        );
+
+        micBtn.setAttribute(
+            "aria-pressed",
+            on ? "true" : "false"
+        );
+    }
+
+    if (micStatus) {
+
+        micStatus.hidden =
+            !on;
+
+        micStatus.textContent =
+            on
+                ? micText().listening
+                : "";
+    }
+}
+
+if (
+    micBtn &&
+    micSpeechCtor
+) {
+
+    micBtn.hidden =
+        false;
+
+    micBtn.title =
+        micText().title;
+
+    micBtn.setAttribute(
+        "aria-label",
+        micText().title
+    );
+
+    micBtn.addEventListener(
+        "click",
+        function () {
+
+            if (listening) {
+
+                if (recognition) {
+
+                    try {
+                        recognition.stop();
+                    } catch (_) {}
+                }
+
+                setMicState(false);
+
+                return;
+            }
+
+            recognition =
+                new micSpeechCtor();
+
+            recognition.lang =
+                locale || "en-US";
+
+            recognition.interimResults =
+                true;
+
+            recognition.continuous =
+                false;
+
+            recognition.maxAlternatives =
+                1;
+
+            const original =
+                input.value.trimEnd();
+
+            let finalText =
+                "";
+
+            recognition.onstart =
+                function () {
+
+                    setMicState(true);
+                };
+
+            recognition.onresult =
+                function (event) {
+
+                    let interim =
+                        "";
+
+                    for (
+                        let i = event.resultIndex;
+                        i < event.results.length;
+                        i++
+                    ) {
+
+                        const chunk =
+                            event.results[i][0].transcript;
+
+                        if (
+                            event.results[i].isFinal
+                        ) {
+
+                            finalText =
+                                (finalText + " " + chunk)
+                                    .trim();
+
+                        } else {
+
+                            interim +=
+                                chunk;
+                        }
+                    }
+
+                    input.value =
+                        (
+                            (original ? original + " " : "") +
+                            (finalText + interim).trimStart()
+                        ).trim().slice(
+                            0,
+                            10000
+                        );
+
+                    autoResize();
+                };
+
+            recognition.onerror =
+                function (event) {
+
+                    setMicState(false);
+
+                    const kind =
+                        event.error;
+
+                    if (
+                        kind === "aborted" ||
+                        kind === "no-speech"
+                    ) {
+                        return;
+                    }
+
+                    showToast(
+                        kind === "not-allowed" ||
+                        kind === "service-not-allowed"
+                            ? micText().denied
+                            : micText().error
+                    );
+                };
+
+            recognition.onend =
+                function () {
+
+                    setMicState(false);
+
+                    const end =
+                        input.value.length;
+
+                    input.focus();
+
+                    input.setSelectionRange(
+                        end,
+                        end
+                    );
+                };
+
+            try {
+
+                recognition.start();
+
+                setMicState(true);
+
+            } catch (_) {
+
+                setMicState(false);
+
+                showToast(
+                    micText().error
+                );
+            }
+        }
+    );
+}
+
+
+/* =========================================================
+   TEXT-TO-SPEECH V1 (browser speechSynthesis)
+   Assistant answer → 🔊 button → user-triggered playback.
+   No autoplay, no external service; /api/chat untouched.
+   Unsupported browsers: feature silently disabled
+   (no fake buttons).
+========================================================= */
+
+const ttsSupported =
+    typeof window !== "undefined" &&
+    "speechSynthesis" in window &&
+    typeof window.SpeechSynthesisUtterance ===
+        "function";
+
+const TTS_I18N = {
+
+    tr: {
+        speak: "Sesli oku",
+        stop: "Okumayı durdur"
+    },
+
+    en: {
+        speak: "Read aloud",
+        stop: "Stop reading"
+    }
+};
+
+const ttsLabel = function () {
+
+    return TTS_I18N[base] || TTS_I18N.en;
+};
+
+let ttsActiveBtn =
+    null;
+
+function ttsResetBtn(btn) {
+
+    if (!btn) {
+        return;
+    }
+
+    btn.classList.remove(
+        "speaking"
+    );
+
+    btn.setAttribute(
+        "aria-pressed",
+        "false"
+    );
+
+    btn.title =
+        ttsLabel().speak;
+
+    btn.setAttribute(
+        "aria-label",
+        ttsLabel().speak
+    );
+}
+
+function ttsCancel() {
+
+    try {
+
+        window.speechSynthesis.cancel();
+
+    } catch (_) {}
+
+    if (ttsActiveBtn) {
+
+        ttsResetBtn(ttsActiveBtn);
+
+        ttsActiveBtn =
+            null;
+    }
+}
+
+function ttsVoiceFor(lang) {
+
+    try {
+
+        const voices =
+            window.speechSynthesis.getVoices() || [];
+
+        const target =
+            String(lang || "")
+                .toLowerCase()
+                .replace("_", "-");
+
+        const primary =
+            target.split("-")[0];
+
+        return (
+            voices.find(
+                v =>
+                    v.lang &&
+                    v.lang.toLowerCase().replace("_", "-") ===
+                        target
+            ) ||
+            voices.find(
+                v =>
+                    v.lang &&
+                    v.lang.toLowerCase().replace("_", "-")
+                        .startsWith(primary)
+            ) ||
+            null
+        );
+
+    } catch (_) {
+
+        return null;
+    }
+}
+
+function attachTtsButton(metaEl, rawText) {
+
+    if (!ttsSupported || !metaEl) {
+        return;
+    }
+
+    const text =
+        String(rawText || "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+    if (text.length < 2) {
+        return;
+    }
+
+    const btn =
+        document.createElement("button");
+
+    btn.type =
+        "button";
+
+    btn.className =
+        "tts-btn";
+
+    btn.title =
+        ttsLabel().speak;
+
+    btn.setAttribute(
+        "aria-label",
+        ttsLabel().speak
+    );
+
+    btn.setAttribute(
+        "aria-pressed",
+        "false"
+    );
+
+    btn.innerHTML =
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>';
+
+    btn.addEventListener(
+        "click",
+        function () {
+
+            if (ttsActiveBtn === btn) {
+
+                ttsCancel();
+
+                return;
+            }
+
+            if (ttsActiveBtn) {
+
+                ttsCancel();
+            }
+
+            const utterance =
+                new SpeechSynthesisUtterance(text);
+
+            utterance.lang =
+                locale || "en-US";
+
+            const voice =
+                ttsVoiceFor(utterance.lang);
+
+            if (voice) {
+
+                utterance.voice =
+                    voice;
+            }
+
+            utterance.onstart =
+                function () {
+
+                    ttsActiveBtn =
+                        btn;
+
+                    btn.classList.add(
+                        "speaking"
+                    );
+
+                    btn.setAttribute(
+                        "aria-pressed",
+                        "true"
+                    );
+
+                    btn.title =
+                        ttsLabel().stop;
+
+                    btn.setAttribute(
+                        "aria-label",
+                        ttsLabel().stop
+                    );
+                };
+
+            utterance.onend =
+                function () {
+
+                    if (ttsActiveBtn === btn) {
+
+                        ttsResetBtn(btn);
+
+                        ttsActiveBtn =
+                            null;
+                    }
+                };
+
+            utterance.onerror =
+                utterance.onend;
+
+            try {
+
+                window.speechSynthesis.cancel();
+
+                window.speechSynthesis.speak(
+                    utterance
+                );
+
+            } catch (_) {
+
+                ttsResetBtn(btn);
+            }
+        }
+    );
+
+    metaEl.appendChild(
+        btn
+    );
+}
 
 
 /* =========================================================
