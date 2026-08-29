@@ -85,7 +85,7 @@ const OLLAMA_CONTEXT =
     Number(process.env.OLLAMA_CONTEXT) || 1024;
  
 const OLLAMA_PREDICT =
-    Number(process.env.OLLAMA_PREDICT) || 96;
+    Number(process.env.OLLAMA_PREDICT) || 64;
  
 const WEB_SEARCH_TIMEOUT =
     Number(process.env.WEB_SEARCH_TIMEOUT) || 10000;
@@ -1126,6 +1126,8 @@ function cleanupSessions() {
             );
  
             sessions.delete(id);
+ 
+            closeSseSession(id);
         }
     }
  
@@ -3181,7 +3183,8 @@ async function executeTools(
     message,
     language,
     intent,
-    decision
+    decision,
+    sessionId
 ) {
  
     const output = {
@@ -3300,6 +3303,15 @@ async function executeTools(
                             language
                         );
  
+                    if (
+                        sessionId
+                    ) {
+                        publishSse(
+                            sessionId,
+                            "searching"
+                        );
+                    }
+ 
                     const results =
                         await webSearch(
                             query,
@@ -3390,6 +3402,15 @@ async function executeTools(
                          Boolean(intent.research));
  
                     if (shouldReadPages) {
+ 
+                        if (
+                            sessionId
+                        ) {
+                            publishSse(
+                                sessionId,
+                                "reading"
+                            );
+                        }
  
                         const enriched =
                             await enrichWebResults(
@@ -4676,14 +4697,26 @@ function verifyNumericClaimAgainstEvidence(message, sources) {
     return null;
 }
  
-async function runAgent(message, language, intent, decision) {
+async function runAgent(message, language, intent, decision, sessionId) {
  
     let plan = planAgent(message, language, intent);
+ 
+    if (
+        sessionId &&
+        plan.tools.length
+    ) {
+        publishSse(
+            sessionId,
+            "planning"
+        );
+    }
+ 
     let output = await executeTools(
         message,
         language,
         intent,
-        plan
+        plan,
+        sessionId
     );
  
     const trace = [{
@@ -4723,7 +4756,8 @@ async function runAgent(message, language, intent, decision) {
             message,
             language,
             intent,
-            retryDecision
+            retryDecision,
+            sessionId
         );
  
         output = {
@@ -5395,6 +5429,359 @@ function buildSources(
 }
  
 /* =========================================================
+   SSE V1 — LIVE PROGRESS HUB (AUXILIARY UI CHANNEL)
+   ---------------------------------------------------------
+   sessionId -> Set<Response>.  Events are published ONLY to
+   listeners of the SAME sessionId (no global broadcast).
+   /api/chat stays the authoritative JSON answer channel;
+   SSE is best-effort UI sugar and can never break it.
+   No user message text, memory content or source content
+   ever goes on this wire — only phase names + timestamps.
+   Kill switch: set ENABLE_SSE=false to disable.
+========================================================= */
+
+const sseHub =
+    new Map();
+
+const SSE_HEARTBEAT_MS =
+    Number(process.env.SSE_HEARTBEAT_MS) ||
+    15000;
+
+const SSE_MAX_CLIENTS_PER_SESSION =
+    Number(process.env.SSE_MAX_CLIENTS_PER_SESSION) ||
+    3;
+
+const ENABLE_SSE =
+    process.env.ENABLE_SSE !== "false";
+
+const SSE_UUID_RE =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function sseFrame(
+    eventName,
+    payload
+) {
+
+    return (
+        "event: " +
+        eventName +
+        "\ndata: " +
+        JSON.stringify(payload) +
+        "\n\n"
+    );
+}
+
+function publishSse(
+    sessionId,
+    phase,
+    extra
+) {
+
+    if (!ENABLE_SSE) {
+        return;
+    }
+
+    try {
+
+        const clients =
+            sseHub.get(sessionId);
+
+        if (
+            !clients ||
+            !clients.size
+        ) {
+            return;
+        }
+
+        const payload = {
+
+            sessionId,
+
+            phase,
+
+            ts:
+                Date.now(),
+
+            ...(
+                extra &&
+                typeof extra === "object"
+                    ? extra
+                    : {}
+            )
+        };
+
+        const frame =
+            sseFrame(
+                "progress",
+                payload
+            );
+
+        for (
+            const client of clients
+        ) {
+
+            try {
+                client.write(frame);
+            } catch {
+                /* one dead client never breaks /api/chat */
+            }
+        }
+
+    } catch {
+        /* SSE publish failures are swallowed by design */
+    }
+}
+
+function publishSseTerminal(
+    sessionId,
+    eventName
+) {
+
+    if (!ENABLE_SSE) {
+        return;
+    }
+
+    try {
+
+        const clients =
+            sseHub.get(sessionId);
+
+        if (
+            !clients ||
+            !clients.size
+        ) {
+            return;
+        }
+
+        const frame =
+            sseFrame(
+                eventName,
+                {
+
+                    sessionId,
+
+                    ts:
+                        Date.now()
+                }
+            );
+
+        for (
+            const client of clients
+        ) {
+
+            try {
+                client.write(frame);
+            } catch {
+                /* ignore */
+            }
+        }
+
+    } catch {
+        /* ignore */
+    }
+}
+
+function closeSseSession(sessionId) {
+
+    try {
+
+        const clients =
+            sseHub.get(sessionId);
+
+        if (!clients) {
+            return;
+        }
+
+        for (
+            const client of clients
+        ) {
+
+            try {
+                client.end();
+            } catch {
+                /* ignore */
+            }
+        }
+
+        clients.clear();
+
+        sseHub.delete(sessionId);
+
+    } catch {
+        /* ignore */
+    }
+}
+
+function closeAllSseClients() {
+
+    for (
+        const id of
+        [...sseHub.keys()]
+    ) {
+        closeSseSession(id);
+    }
+}
+
+app.get(
+    "/api/events",
+    (req, res) => {
+
+        if (!ENABLE_SSE) {
+
+            return res
+                .status(404)
+                .json({
+
+                    success:
+                        false,
+
+                    error:
+                        "Event stream disabled."
+                });
+        }
+
+        const sessionId =
+            String(
+                req.query.sessionId || ""
+            );
+
+        if (
+            !SSE_UUID_RE.test(sessionId)
+        ) {
+
+            return res
+                .status(400)
+                .json({
+
+                    success:
+                        false,
+
+                    error:
+                        "A valid sessionId (UUID) is required."
+                });
+        }
+
+        let clients =
+            sseHub.get(sessionId);
+
+        if (
+            clients &&
+            clients.size >=
+                SSE_MAX_CLIENTS_PER_SESSION
+        ) {
+
+            return res
+                .status(429)
+                .json({
+
+                    success:
+                        false,
+
+                    error:
+                        "Too many event streams for this session."
+                });
+        }
+
+        if (!clients) {
+
+            clients =
+                new Set();
+
+            sseHub.set(
+                sessionId,
+                clients
+            );
+        }
+
+        res.writeHead(
+            200,
+            {
+
+                "Content-Type":
+                    "text/event-stream; charset=utf-8",
+
+                "Cache-Control":
+                    "no-cache",
+
+                "Connection":
+                    "keep-alive",
+
+                "X-Accel-Buffering":
+                    "no"
+            }
+        );
+
+        if (
+            typeof res.flushHeaders ===
+                "function"
+        ) {
+            res.flushHeaders();
+        }
+
+        clients.add(res);
+
+        try {
+            res.write(": connected\n\n");
+        } catch {
+            /* ignore */
+        }
+
+        const heartbeat =
+            setInterval(
+                () => {
+
+                    try {
+                        res.write(": ping\n\n");
+                    } catch {
+                        /* cleanup runs on close */
+                    }
+                },
+
+                SSE_HEARTBEAT_MS
+            );
+
+        if (
+            typeof heartbeat.unref ===
+                "function"
+        ) {
+            heartbeat.unref();
+        }
+
+        req.on(
+            "close",
+            () => {
+
+                clearInterval(
+                    heartbeat
+                );
+
+                const current =
+                    sseHub.get(sessionId);
+
+                if (current) {
+
+                    current.delete(res);
+
+                    if (
+                        !current.size
+                    ) {
+                        sseHub.delete(
+                            sessionId
+                        );
+                    }
+                }
+
+                try {
+                    res.end();
+                } catch {
+                    /* ignore */
+                }
+            }
+        );
+    }
+);
+
+/* =========================================================
    CHAT
 ========================================================= */
  
@@ -5524,6 +5911,11 @@ app.post(
                 message
             );
  
+            publishSse(
+                sessionId,
+                "thinking"
+            );
+ 
             /* =================================================
                MEMORY WRITE
             ================================================= */
@@ -5650,6 +6042,11 @@ app.post(
                     answer
                 );
  
+                publishSseTerminal(
+                    sessionId,
+                    "done"
+                );
+ 
                 return res.json({
  
                     success:
@@ -5709,6 +6106,11 @@ app.post(
                         sessionId,
                         message,
                         fast
+                    );
+ 
+                    publishSseTerminal(
+                        sessionId,
+                        "done"
                     );
  
                     return res.json({
@@ -5828,6 +6230,11 @@ app.post(
                     answer
                 );
  
+                publishSseTerminal(
+                    sessionId,
+                    "done"
+                );
+ 
                 return res.json({
  
                     success:
@@ -5871,7 +6278,8 @@ app.post(
                     message,
                     language,
                     intent,
-                    decision
+                    decision,
+                    sessionId
                 );
  
             const toolOutput =
@@ -5913,6 +6321,8 @@ app.post(
                     : "I could not find enough reliable, verifiable web evidence. I won't guess or invent information.";
                 saveConversation(sessionId, message, answer);
 
+                publishSseTerminal(sessionId, "done");
+
                 return res.json({
                     success: true,
                     answer,
@@ -5936,6 +6346,8 @@ app.post(
                 // Direct evidence found — answer deterministically.
                 saveConversation(sessionId, message, promptVerification.answer);
 
+                publishSseTerminal(sessionId, "done");
+
                 return res.json({
                     success: true,
                     answer: promptVerification.answer,
@@ -5958,6 +6370,8 @@ app.post(
             if (requestedNumericVerification && promptNumericVerification) {
                 // Direct numeric evidence found — answer deterministically.
                 saveConversation(sessionId, message, promptNumericVerification.answer);
+
+                publishSseTerminal(sessionId, "done");
 
                 return res.json({
                     success: true,
@@ -5995,6 +6409,11 @@ app.post(
                     sessionId,
                     message,
                     answer
+                );
+ 
+                publishSseTerminal(
+                    sessionId,
+                    "done"
                 );
  
                 return res.json({
@@ -6055,6 +6474,11 @@ app.post(
  
                 const source =
                     toolOutput.weather.source;
+ 
+                publishSseTerminal(
+                    sessionId,
+                    "done"
+                );
  
                 return res.json({
  
@@ -6128,6 +6552,11 @@ app.post(
  
                 const source =
                     toolOutput.crypto.source;
+ 
+                publishSseTerminal(
+                    sessionId,
+                    "done"
+                );
  
                 return res.json({
  
@@ -6210,6 +6639,11 @@ app.post(
                     answer
                 );
  
+                publishSseTerminal(
+                    sessionId,
+                    "done"
+                );
+ 
                 return res.json({
  
                     success:
@@ -6269,6 +6703,11 @@ app.post(
                     answer
                 );
  
+                publishSseTerminal(
+                    sessionId,
+                    "done"
+                );
+ 
                 return res.json({
                     success: true,
                     answer,
@@ -6291,6 +6730,11 @@ app.post(
                 toolOutput.toolContext
                     .join("\n\n")
                     .slice(0, 5000);
+ 
+            publishSse(
+                sessionId,
+                "generating"
+            );
  
             let answer =
                 await askOllama(
@@ -6326,6 +6770,11 @@ app.post(
                     claimContext.sourceCount,
                     "evidence:",
                     claimContext.evidenceAvailable
+                );
+ 
+                publishSse(
+                    sessionId,
+                    "validating"
                 );
  
                 /*
@@ -6553,6 +7002,11 @@ app.post(
                 );
             }
  
+            publishSseTerminal(
+                sessionId,
+                "done"
+            );
+ 
             return res.json({
  
                 success:
@@ -6639,6 +7093,11 @@ app.post(
             });
  
         } catch (error) {
+ 
+            publishSseTerminal(
+                sessionId,
+                "error"
+            );
  
             console.error(
  
@@ -7568,6 +8027,8 @@ function shutdown(signal) {
     }
  
     flushMemorySave();
+ 
+    closeAllSseClients();
  
     server.close(
         () => {
