@@ -1,0 +1,60 @@
+'use strict';
+
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { MemoryStore } = require('../memory/store');
+const { Learner } = require('../learning/learner');
+const { createLesson } = require('../learning/lesson');
+const { calculateConfidence } = require('../learning/confidence');
+const { applyPolicy } = require('../learning/policy');
+const { retrieveLessons } = require('../learning/retrieval');
+
+const stateFile = path.join(os.tmpdir(), `sardis-v6-learning-${process.pid}.json`);
+const experience = (overrides = {}) => ({ action: 'weather', context: { topic: 'weather', intent: 'weather', route: 'weather', tool: 'weather' }, success: true, ...overrides });
+const result = (overrides = {}) => ({ ok: true, route: 'weather', tool: 'weather', toolExecution: { ok: true }, ...overrides });
+
+async function main() {
+  fs.rmSync(stateFile, { force: true });
+  const memory = new MemoryStore(stateFile);
+  const learner = new Learner(memory);
+  const high = learner.record({ experience: experience(), verification: { ok: true }, intelligence: { intent: 'weather', topic: 'weather' }, result: result() });
+  assert.equal(high.decision, 'review');
+  const repeated = learner.record({ experience: experience(), verification: { ok: true }, intelligence: { intent: 'weather', topic: 'weather' }, result: result() });
+  assert.ok(repeated.confidence > high.confidence);
+  assert.equal(repeated.decision, 'accepted');
+  const weak = learner.record({ experience: experience({ success: false }), verification: { ok: false }, intelligence: { intent: 'weather', topic: 'weather' }, result: result({ ok: false, toolExecution: { ok: false } }) });
+  assert.equal(weak.decision, 'rejected');
+  assert.equal(learner.record({ experience: experience({ success: false }), verification: { ok: false }, intelligence: { intent: 'weather', topic: 'weather' }, result: result({ ok: false, toolExecution: { ok: false } }) }).decision, 'rejected');
+  const safety = learner.record({ experience: experience({ action: 'security', context: { topic: 'security', intent: 'security', route: 'security', tool: 'security' } }), verification: { ok: true }, intelligence: { intent: 'security', topic: 'security' }, result: result({ route: 'security', tool: 'security' }) });
+  assert.equal(safety.decision, 'rejected');
+  assert.match(safety.reason, /safety_boundary/);
+  const correction = learner.record({ experience: experience({ action: 'chat', context: { topic: 'preference', intent: 'chat', route: 'chat', tool: null } }), verification: { ok: true }, intelligence: { intent: 'chat', topic: 'preference' }, result: result({ route: 'chat', tool: null }), correction: true, userMessage: 'Hayır, artık kısa cevapları tercih ediyorum.' });
+  assert.ok(['accepted', 'review'].includes(correction.decision));
+  assert.ok(correction.confidence >= 0.6);
+  const accepted = createLesson({ type: 'routing', trigger: 'weather continuation', context: { topic: 'weather', intent: 'weather', route: 'weather', tool: 'weather' }, lesson: 'preserve previous weather city for follow-up questions', confidence: 0.94, importance: 0.7, status: 'accepted' });
+  const irrelevant = createLesson({ type: 'research', trigger: 'bitcoin research', context: { topic: 'research', intent: 'chat', route: 'research', tool: 'web_research' }, lesson: 'use multiple sources for market research', confidence: 0.9, importance: 0.8, status: 'accepted' });
+  const stale = createLesson({ type: 'tool-selection', trigger: 'old weather', context: { topic: 'weather', intent: 'weather', route: 'weather', tool: 'weather' }, lesson: 'old behavior', confidence: 0.9, importance: 0.5, status: 'accepted', now: new Date('2020-01-01') });
+  stale.expiresAt = '2020-02-01'; stale.lastValidatedAt = '2020-01-01';
+  const found = retrieveLessons([accepted, irrelevant, stale], 'Yarın nasıl?', { topic: 'weather', intent: 'weather', task: 'tool_action', tool: 'weather' });
+  assert.ok(found.some((item) => item.id === accepted.id));
+  assert.ok(!found.some((item) => item.id === irrelevant.id));
+  assert.ok(!found.some((item) => item.id === stale.id));
+  const oldPreference = memory.remember('Kısa cevapları tercih ediyorum.', { type: 'preference', source: 'explicit_user' });
+  const newPreference = memory.remember('Hayır, artık kısa cevapları tercih ediyorum.', { type: 'preference', source: 'correction', confidence: 0.95 });
+  assert.notEqual(oldPreference.id, newPreference.id);
+  assert.ok(memory.memories({ currentOnly: true, types: ['preference'] }).some((item) => item.id === newPreference.id));
+  assert.equal(memory.memories({ currentOnly: true, types: ['preference'] }).some((item) => item.id === oldPreference.id), false);
+  assert.equal(calculateConfidence({ verification: { ok: true }, repetition: 3, toolSuccess: true }), 0.68);
+  assert.equal(applyPolicy({ confidence: 0.9, signals: [true, true] }).status, 'accepted');
+  assert.equal(applyPolicy({ confidence: 0.7, signals: [true] }).status, 'review');
+  assert.equal(applyPolicy({ confidence: 0.2, signals: [] }).status, 'rejected');
+  assert.equal(applyPolicy({ confidence: 0.99, signals: [true, true], safety: 'security' }).status, 'rejected');
+  const persisted = new MemoryStore(stateFile);
+  assert.ok(persisted.learningState().lessons.length >= 1);
+  assert.ok(persisted.learningState().events.length >= 1);
+  console.log('PASS: controlled learning confidence policy retrieval correction safety temporal persistence');
+  fs.rmSync(stateFile, { force: true });
+}
+main().catch((error) => { console.error(error); fs.rmSync(stateFile, { force: true }); process.exitCode = 1; });

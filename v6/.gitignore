@@ -1,0 +1,17 @@
+# Runtime data (local only, never commit)
+data/state.json
+data/state.json.tmp
+data/tasks.json
+data/*.tmp
+
+# Logs (all levels)
+*.log
+
+# Check / diagnostic outputs
+check-result.txt
+status-check.txt
+status-result.txt
+syntax-check.txt
+
+# Dependencies
+node_modules/

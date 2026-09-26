@@ -1,0 +1,15 @@
+{
+  "name": "sardis-v6",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check core/sardis.js && node --check core/context.js && node --check core/intent.js && node --check core/decision.js && node --check core/verifier.js && node --check memory/store.js && node --check memory/identity.js && node --check memory/retrieval.js && node --check memory/experience.js && node --check learning/lesson.js && node --check learning/confidence.js && node --check learning/policy.js && node --check learning/retrieval.js && node --check learning/learner.js && node --check learning/index.js && node --check reasoning/planner.js && node --check reasoning/source-quality.js && node --check reasoning/research.js && node --check tools/weather.js && node --check tools/web.js && node --check tools/registry.js && node --check tools/validation.js && node --check tools/permissions.js && node --check tools/router.js && node --check tools/mcp.js && node --check tools/builtin.js && node --check tools/index.js && node --check tests/learning.test.js && node --check tests/tools.test.js && node --check tests/mcp.test.js && node --check tests/http-tools.test.js && node --check client/app.js",
+    "test": "node tests/intelligence.test.js && node tests/conversation.test.js && node tests/memory.test.js && node tests/reasoning.test.js && node tests/learning.test.js && node tests/tools.test.js && node tests/mcp.test.js",
+    "test:http": "node tests/http-live.test.js",
+    "test:memory:http": "node tests/http-memory.test.js",
+    "test:reasoning:http": "node tests/reasoning-live-runner.js",
+    "test:tools:http": "node tests/http-tools.test.js",
+    "test:learning:http": "node tests/http-learning-runner.js"
+  }
+}

@@ -1,0 +1,23 @@
+'use strict';
+
+const state = { sessionId: localStorage.getItem('sardis-session') || '', sending: false };
+const el = (id) => document.getElementById(id);
+const chat = el('chat');
+const input = el('input');
+const status = el('status');
+const history = el('history');
+async function api(url, options = {}) { const response = await fetch(url, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } }); return response.json(); }
+function setStatus(value) { status.textContent = value; }
+function esc(value) { return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char])); }
+function addMessage(role, content, pending = false) { el('welcome')?.remove(); const row = document.createElement('div'); row.className = `row ${role}${pending ? ' pending' : ''}`; row.innerHTML = role === 'assistant' ? '<div class="avatar">S</div><div class="bubble"></div>' : '<div class="bubble"></div><div class="avatar user">S</div>'; row.querySelector('.bubble').textContent = content; chat.appendChild(row); chat.scrollTop = chat.scrollHeight; return row.querySelector('.bubble'); }
+async function loadHistory() { const data = await api('/api/sessions'); history.innerHTML = data.sessions.map((item) => `<button class="history-item" data-id="${esc(item.id)}"><span>${esc(item.preview)}</span><small>${item.messageCount} mesaj</small></button>`).join('') || '<div class="empty">Henüz konuşma yok</div>'; history.querySelectorAll('[data-id]').forEach((item) => item.addEventListener('click', () => openSession(item.dataset.id))); }
+async function openSession(id) { const data = await api(`/api/session/${encodeURIComponent(id)}`); state.sessionId = id; localStorage.setItem('sardis-session', id); chat.innerHTML = ''; data.messages.forEach((item) => addMessage(item.role, item.content)); await loadHistory(); }
+async function newChat() { const data = await api('/api/session', { method: 'POST', body: '{}' }); state.sessionId = data.sessionId; localStorage.setItem('sardis-session', state.sessionId); chat.innerHTML = ''; addMessage('assistant', 'Merhaba, ben Sardis. Nasıl yardımcı olabilirim?'); await loadHistory(); }
+async function send(message) { if (!message.trim() || state.sending) return; state.sending = true; el('send').disabled = true; addMessage('user', message); const bubble = addMessage('assistant', 'Düşünüyorum…', true); try { const response = await fetch('/api/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionId: state.sessionId || undefined, message }) }); if (!response.ok) throw new Error('Sunucuya ulaşılamadı'); const reader = response.body.getReader(); const decoder = new TextDecoder(); let buffer = ''; let answer = ''; while (true) { const { value, done } = await reader.read(); if (done) break; buffer += decoder.decode(value, { stream: true }); const lines = buffer.split('\n'); buffer = lines.pop(); for (const line of lines) { if (!line.trim()) continue; const event = JSON.parse(line); if (event.type === 'status') { bubble.classList.remove('pending'); setStatus(event.tool || event.route === 'chat' ? 'Sardis düşünüyor' : `${event.tool || event.route} aracı çalışıyor`); } if (event.type === 'delta') { answer += event.text; bubble.textContent = answer; chat.scrollTop = chat.scrollHeight; } if (event.type === 'done') { state.sessionId = event.sessionId; localStorage.setItem('sardis-session', state.sessionId); await loadHistory(); } if (event.type === 'error') throw new Error(event.error); } } if (!answer) bubble.textContent = 'Sardis şu anda yanıt üretemedi.'; } catch (error) { bubble.classList.remove('pending'); bubble.textContent = 'Bağlantı kurulamadı. Ollama veya ağ servisini kontrol et.'; setStatus('Bağlantı bekleniyor'); } finally { state.sending = false; el('send').disabled = false; setStatus('Hazır'); } }
+el('composer').addEventListener('submit', (event) => { event.preventDefault(); const message = input.value; input.value = ''; send(message); });
+input.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); el('composer').requestSubmit(); } });
+el('newChat').addEventListener('click', newChat);
+el('menu').addEventListener('click', () => el('sidebar').classList.toggle('open'));
+document.querySelectorAll('.suggestions button').forEach((button) => button.addEventListener('click', () => send(button.textContent)));
+(async () => { if (state.sessionId) await openSession(state.sessionId).catch(() => newChat()); else await newChat(); const health = await api('/api/health'); setStatus(health.ollama.status === 'online' ? 'Hazır' : 'Ollama bekleniyor'); })();
+
